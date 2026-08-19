@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Phoenix Journey — One's Conversation With Life</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0503;
+            --card-bg: #140a05;
+            --text-light: #f5f2eb;
+            --accent-flame: #ff5722;
+            --accent-glow: #ff8a65;
+            --accent-gold: #ffc107;
+            --border-line: #2d140a;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Lora', serif;
+            line-height: 1.85;
+            overflow-x: hidden;
+        }
+
+        /* Reading Progress Bar */
+        #progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 1000;
+        }
+        #progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-flame), var(--accent-gold));
+            width: 0%;
+            transition: width 0.1s ease-out;
+        }
+
+        /* Hero Section */
+        header {
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            background: radial-gradient(circle at center, #240e05 0%, var(--bg-dark) 70%);
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: var(--accent-flame);
+            font-size: clamp(2.2rem, 6vw, 4rem);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            text-shadow: 0 0 20px rgba(255, 87, 34, 0.3);
+            animation: fadeInDown 1.2s ease-out;
+        }
+
+        .subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            color: var(--accent-gold);
+            font-style: italic;
+            margin-bottom: 8px;
+            animation: fadeInUp 1.2s ease-out 0.2s backwards;
+        }
+
+        .author {
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            color: #b0bec5;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            animation: fadeInUp 1.2s ease-out 0.4s backwards;
+        }
+
+        /* Animated Flame Button */
+        .cta-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-flame), #e64a19);
+            color: #fff;
+            padding: 14px 32px;
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1.2s ease-out 0.6s backwards;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 25px rgba(255, 87, 34, 0.6);
+            background: linear-gradient(135deg, #ff7043, var(--accent-flame));
+        }
+
+        /* Container & Cards */
+        .container {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .preface {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-line);
+            border-left: 4px solid var(--accent-flame);
+            padding: 30px;
+            margin-bottom: 60px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .chapter {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-line);
+            padding: 35px;
+            margin-bottom: 50px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            /* Scroll Animation Initial State */
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .chapter.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--accent-gold);
+            font-size: 1.4rem;
+            border-bottom: 1px solid var(--border-line);
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            text-align: justify;
+            color: #e0e0e0;
+        }
+
+        .dialogue {
+            font-weight: 600;
+            color: var(--accent-glow);
+            margin-top: 25px;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--accent-gold);
+            font-family: 'Cinzel', serif;
+            border-top: 1px solid var(--border-line);
+            background: linear-gradient(to top, #1a0a03, var(--bg-dark));
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 600px) {
+            .chapter { padding: 22px; }
+            p { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress-container"><div id="progress-bar"></div></div>
+
+    <header>
+        <h1>A Phoenix Journey</h1>
+        <div class="subtitle">One's Conversation With Life (First Edition)</div>
+        <div class="author">By Ben Wesley Mwanza</div>
+        <a href="#read" class="cta-btn">Begin Reading</a>
+    </header>
+
+    <div class="container" id="read">
+        <section class="preface">
+            <p>I came to see that humans tend to do or set themselves back and get stuck on blaming things that are in the past.</p>
+            <p><em>A Phoenix Journey: One's Conversation With Life</em> is a deeply reflective, philosophical dialogue that wrestles with fundamental human experiences: fairness, discipline, divine purpose, pain, and spiritual truth. It reads like a modern wisdom narrative or a series of allegorical meditations.</p>
+        </section>
+
+        <article class="chapter">
+            <h2>CHAPTER 1: ONE’S CONVERSATION WITH LIFE</h2>
+            <p>One spoke to life about how life can be so unfair but at the same time so fair to other people, Life told one that they are those who pay attention to life’s gifts and those who certainly don’t. Because if you pay close attention to everything in this life everything is a teacher. So it’s either you are a good student or a bad one. And it’s not like life is unfair to others it’s just that in this world some people deny what they are given by life, they want what others have, you have your own life and the things you were given by the one who gave you life. It’s more like a pattern you just have to see it.</p>
+            <p>But some in this world obtain things that are great because of consistency I will give an example of those who give up and the one who doesn’t. Let’s say there’s one who post things on internet in order to be noticed by the world and he reaches his goal by getting followers and a thousand plus likes and shares but another is posting without any likes, comments, followers and shares and gives up. That one will say life is not fair at all but always remember that even if life seems unfair there’s always someone out there who wants what you do. So listen, consistency doesn’t mean to be pretty, it means waking up with one like, zero comment, zero mention, but still choosing to post the contents that you want to publish because if you think that people are not seeing what you are doing, well….. You are certainly wrong, because they are and some are liking it in silence so keeping doing for you and the silent ones. Life is fair because the giver gives in fairness.</p>
+            <p>Let me tell some things about life and humans themselves.</p>
+        </article>
+
+        <article class="chapter">
+            <h2>CHAPTER 2: HUMAN’S COMMON MISTAKES</h2>
+            <p>Humans spend most of their times destroying themselves and spend little time they remain with to fix themselves. That’s human kind’s way of living.</p>
+            <p>They trade what they want the most for the future with what they want now and spend their time trying to fix the past. Instead of them learning from the mistakes they have done and take lessons from other people so that they should avoid them, they end doing the same. So, some learn by observing, some learn by being in the same path.</p>
+            <p>Just like a fool cannot get advice from a wise person but a wise person can get advice from a fool because sense isn’t just found in the wisest places but in all places.</p>
+        </article>
+
+        <article class="chapter">
+            <h2>CHAPTER 3: THE TWO ROADS</h2>
+            <p>In this world they are two roads that life gives, no matter which one you choose there’s death, but you put this in mind, “the road to Hell looks beautiful and sweet like honey while the road to Heaven looks painful and ugly”. Choose wisely my friend. And when that road looks like it’s taking long to get you to your destination don’t jump out of it to go onto the next one and don’t stop when you are half way your final point because the distance is the same when you are half way. I repeat but in different words, we can say that the road to Hell feels like its Heaven while the road to Heaven feels like hell. Pay close attention to this. Foe this is one gift that comes with life but most of all The greatest and biggest gift of all is the Word of Life.</p>
+            <p>These roads carry things that need close attention for if one gets on the wrong one, then one is doomed. Like I said both roads lead to death. But one is a painful death, death without peace while the other road has death but its peaceful because there’s something after it. Chase what give life, the road that gives life not the one that takes with illusions of this world. For what this world calls fun, its what kills the very person enjoying it. And the right road will always look like it’s wrong road, but when choosing these very roads seek the word that speaks the truth for it will show you the right one to take and you will then understand why the right one looks painful. “strength comes from endurance of pain.”</p>
+        </article>
+
+        <article class="chapter">
+            <h2>CHAPTER 4: CHANGE AND UNCOMFORTABLITY</h2>
+            <p>Change seems hard for other people and mostly people always prefer comfortability, but where there’s comfortability they can’t be change, you can’t change something that is making you feel good, so for one to change he must first be uncomfortable from where he is. That’s how life evolves. So life changes where there is uncomfortability.</p>
+            <p>So don’t feel bad if you feel like where you are is very uncomfortable for you, that’s not the end of everything, that’s life telling you that it needs change it needs high purpose that’s the whole point of life it lives in us and we live in it…we are life itself.</p>
+        </article>
+
+        <article class="chapter">
+            <h2>CHAPTER 5: THE CHOICES WE MAKE</h2>
+            <p>We have choices in life, we encounter a thousand choices to be where we are right now one’s Life is built on choices. And one might say that why did I make this choice, regrets come in when one makes a choice that seem to be wrong but in life the choices you chose those are the choices that were made for you to make you see things that were meant to teach you and shape you in things that you thought you could handle but life knew that you need more teachings. And every choice you made led you to exactly where you were meant to be, there’s nothing like the wrong choice in life. A display of choices is given to you, a path of choices is like a road that is full of junctions, you might be standing in a junction that is fully clouded or you might be alone on that junction and the roads ahead can’t be clear then, but as you go you find that either you took the long road or short road that is full of short achievements but no matter what you choose, you didn’t choose it but it chose you. It’s what you humans call fate. And when you are not ready you choose choices that are not ready for you in the process you will think that maybe you chose the hard way road but no, then you end being taught by those choices you took. I strongly advice you pay attention to the teachings that the choices you choose taught you so that you choose wisely. Seek out the word for it will teach you how to make the right choices.</p>
+            <div class="dialogue">ONE ASKED:</div>
+            <p>What if I don’t pay attention?</p>
+            <div class="dialogue">LIFE ANSWERED:</div>
+            <p>Whatever you choose will bring about the end of something and the start of something you once began to create, the uncounted pieces you once tried to put together will then turn into short a long regret that you once started but then you stopped.</p>
+        </article>
+
+        <article class="chapter">
+            <h2>CHAPTER 6: THE ONE WHO WANTS SUFFER AND THE ONE WHO DOESNT</h2>
+            <p>I have seen people suffer enough to not want to see it to another and those who want to see it to others by throwing it to them.</p>
+            <p>The one who want others to suffer, the one who throws it to others the one who wishes tears on others has no pure thoughts has no happiness in him. Some might say he has been through a lot to the extent that he knows only that but the case is that he is being blinded by it he hasn’t learned the lesson in it. Because one who suffers for another or just for himself knows that he carries a lot on his shoulders. Like JESUS CHRIST he suffered for the world so that happiness and freedom can be felt by he who follows him.</p>
+            <p>But the one who doesn’t want suffering to fall onto others knows and has learned so many lessons In it and has seen so many tears in it he knows that he carries not just he’s life but many more so he will do good to other so that they don’t get trapped by the bad things that come with this world, he will show them the ways to avoid those bad things, he will try by all means to direct them to the very Word that gives happiness and life to one. The one who truly suffers is not blind but sees every suffering. And I say to you one, true suffering doesn’t teach hate towards others, but instead, it teaches love, peace, faith, obedience, mercy and honesty. Because the opposite of these things I have mentioned brings suffering to one who does them in opposition.</p>
+        </article>
+
+        <article class="chapter">
+            <h2>CHAPTER 7: THE MISTAKEN OF BEING LOVED</h2>
+            <p>Sometimes human beings mistaken being needed and being loved at that same time that comes in from someone who needs them. Then they feel left out in the darkness alone, thinking why did that one leave me but he needed me back then. Emotionally drained, they feel. But that wasn’t Love it was just a need. They needed you that very moment but they didn’t love you that very moment same as they liked what they needed from you and when it’s over, they throw you away like a paper that has been inked all badly and can’t work again. There’s a saying that says “you will be needed when you have what is needed” and I hope that you won’t see that has love.</p>
+            <div class="dialogue">ONE ASKED:</div>
+            <p>What is love then, if being needed is not love.</p>
+        </article>
+
+        <article class="chapter">
+            <h2>CHAPTER 8: AN UNDERSTANDING OF ATLEAST WHAT LOVE IS</h2>
+            <p>Love is described in Many ways, one could say a strong emotion towards someone that you don’t want to see suffer. One could say it is found in gifts that one gives to another. But love is something that comes with pure intent. Love doesn’t hurt, hate or makes someone cry love. Love Carrie’s no regrets, love carries protection not of wounding but of healing love doesn’t carry distraction. Some mistake love as something that can bring about hate in order to protect or bring about distraction in order to protect, well that is the love this world has shown you one. But if you really want to understand love Go and read the Word that has love. That teaches on how to love.</p>
+            <div class="dialogue">Life’s advice to one:</div>
+            <p>“People will treat you according to their moods, don’t let that affect you in you search for what love is, don’t hate or hurt the one who treats you badly but instead understand them, to find peace and to prove that love carries no harm towards another”</p>
+        </article>
+
+        <article class="chapter">
+            <h2>CHAPTER 9: FORGIVENESS AND FORGETTING</h2>
+            <div class="dialogue">ONE SAID:</div>
+            <p>But sometimes it’s hard to forgive a person when you have been hurt, just seeing them puts so much pain and hate towards them because of what they did to you. Some leave scares that can’t even be erased by just forgetting about that memory. The very thing memory itself carries emotions of pain. How can one forgive such?</p>
+            <div class="dialogue">LIFE ANSWERED:</div>
+            <p>Truly it is hard to forgive someone who has hurt you, scares don’t just appear outside the flesh but inside the heart too. The heart is something that carries a lot of scares compared to the flesh itself because most of the pain we carry are emotional pain, by actions from another, words spoken in lack of understanding what words carry by another. And the Word really encourages on Forgiveness and Forgetting. And this where most people find it hard because Forgetting is hard I know as long as you remember that very day someone caused you pain the feeling comes back again, like you want to do the same to them. But someone once explained Forgiveness and Forgetting a much simpler way such that one can understand it at least what the entire “Forgive and forget” really means. He said, “Forgiveness is not you Forgetting, its choosing peace over poison, you release the bitterness not the memory.” For it is hard to release a memory from your mind because for as long as that person was part of the life you have lived you will always think about their actions good or bad towards you memories reply in order for one to recognize another based on their actions but if release the poison form those thoughts you will truly understand that Forgiveness is not hard to do so. People assume those words meant to forget the person who caused pain in their lives entirely but it’s not possible. Because Forgetting its the same as something never existed but something that came in your path of life is never forgotten easily. So the pick ignorance of the person’s existence instead of the paint it cause. When you forgive someone no matter what happens you will never bring back the pain they made you feel to them.</p>
+            <div class="dialogue">ONE ASKED:</div>
+            <p>What is the word that you keeping on directing me to, Is it a book with that title?</p>
+        </article>
+
+        <article class="chapter">
+            <h2>CHAPTER 10: HEAR THIS CAREFULLY</h2>
+            <p>So remove the pain that you feel towards that person but live the memory or ignore the feelings that comes with that memory and choose act of peace.</p>
+            <p>They will be people who will oppose to what I have told you this conversation had but don’t go losing your way in terms trying to defend my words or the right you have seen this conversation. Am not saying am right in everything I have spoken but am trying to point one to the truth which is written in the Word. The entire truth about how to overcome the pain that comes with this word is found By reading, knowing and understanding the very Word that the creator of life tells us to read. He only has good for us.</p>
+            <p>And the Word I speak of is found in a book, a book that almost every house in this world has but some choose to keep it for the sake of respect they have for the one who said the words in it, but that is barely respect because if your master gives you a book to read, a book that tells you how he wants you to handle his things and things he made for you in the right way you will read it in order to follow his command, most people know what is inside, they know the truth but they choose to ignore, this book has every answer to all the questions humans have, seek out understanding. This book is found in every house, am sure you are thinking of it right now. This book am speaking of is the Bible and the word am speaking of is the word of God which is found in the Bible. Seek out understanding when reading it so that you may understand what it says because one may read but not know and one may know but not understand. So seek out understanding and knowledge.</p>
+            <p>Don’t get covered in what the flesh desires for they are worldly things.</p>
+        </article>
+    </div>
+
+    <footer>
+        <p>Peace be with you.</p>
+    </footer>
+
+    <script>
+        // Reading progress indicator
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        };
+
+        // Fade in animation on scroll (Intersection Observer)
+        const observerOptions = { threshold: 0.15 };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.chapter').forEach(chapter => {
+            observer.observe(chapter);
+        });
+    </script>
+</body>
+</html>
