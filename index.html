@@ -8,18 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-light: #ffffff;
-            --card-bg: #fcfbf9;
-            --text-dark: #1f1d1b;
-            --text-muted: #66605b;
-            --accent-flame: #d84315;
-            --accent-glow: #e65100;
-            --accent-gold: #b78103;
-            --border-line: #eae4dc;
-            --shadow-subtle: rgba(0, 0, 0, 0.05);
-        }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         html {
@@ -27,8 +15,9 @@
         }
 
         body {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
+            /* Background Nature Image */
+            background: url('images/20260416_165634.jpeg') center / cover fixed no-repeat;
+            color: #111111;
             font-family: 'Lora', serif;
             line-height: 1.85;
             overflow-x: hidden;
@@ -41,12 +30,12 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: rgba(0,0,0,0.05);
+            background: rgba(0,0,0,0.1);
             z-index: 1000;
         }
         #progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent-flame), var(--accent-gold));
+            background: linear-gradient(90deg, #d84315, #b78103);
             width: 0%;
             transition: width 0.1s ease-out;
         }
@@ -61,96 +50,89 @@
             text-align: center;
             padding: 60px 20px;
             position: relative;
-            background: radial-gradient(circle at center, #fff8f5 0%, var(--bg-light) 75%);
-            border-bottom: 1px solid var(--border-line);
+            background-color: rgba(255, 255, 255, 0.94);
+            border-bottom: 2px solid #eae4dc;
         }
 
         h1 {
             font-family: 'Cinzel', serif;
-            color: var(--accent-flame);
+            color: #d84315;
             font-size: clamp(2.2rem, 6vw, 4rem);
             letter-spacing: 2px;
             margin-bottom: 12px;
-            animation: fadeInDown 1.2s ease-out;
         }
 
         .subtitle {
             font-size: clamp(1.1rem, 3vw, 1.5rem);
-            color: var(--accent-gold);
+            color: #b78103;
             font-style: italic;
             margin-bottom: 8px;
-            animation: fadeInUp 1.2s ease-out 0.2s backwards;
         }
 
         .author {
             font-family: 'Cinzel', serif;
             font-size: 0.95rem;
-            color: var(--text-muted);
+            color: #555555;
             text-transform: uppercase;
             letter-spacing: 3px;
             margin-bottom: 15px;
-            animation: fadeInUp 1.2s ease-out 0.4s backwards;
         }
 
         .publisher {
             font-family: 'Cinzel', serif;
             font-size: 0.85rem;
-            color: var(--accent-glow);
+            color: #e65100;
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 35px;
-            animation: fadeInUp 1.2s ease-out 0.5s backwards;
         }
 
-        /* Animated Flame Button */
+        /* Flame Button */
         .cta-btn {
             display: inline-block;
-            background: linear-gradient(135deg, var(--accent-flame), #bf360c);
+            background: linear-gradient(135deg, #d84315, #bf360c);
             color: #ffffff;
             padding: 14px 34px;
             text-decoration: none;
             font-family: 'Cinzel', serif;
             font-weight: 700;
             border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(216, 67, 21, 0.25);
+            box-shadow: 0 4px 15px rgba(216, 67, 21, 0.3);
             transition: all 0.3s ease;
-            animation: fadeInUp 1.2s ease-out 0.6s backwards;
         }
 
         .cta-btn:hover {
             transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 8px 25px rgba(216, 67, 21, 0.4);
-            background: linear-gradient(135deg, #f4511e, var(--accent-flame));
+            box-shadow: 0 8px 25px rgba(216, 67, 21, 0.5);
+            background: linear-gradient(135deg, #f4511e, #d84315);
         }
 
-        /* Container & Cards */
+        /* Container & Solid White Cards */
         .container {
             max-width: 780px;
             margin: 0 auto;
             padding: 40px 20px;
         }
 
-        .preface, .importance, .toc-section {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-line);
-            border-left: 4px solid var(--accent-flame);
-            padding: 35px;
+        .preface, .importance, .toc-section, .chapter {
+            background-color: #ffffff;
+            border: 1px solid #dcd6cd;
+            padding: 40px;
             margin-bottom: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px var(--shadow-subtle);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
 
+        .preface, .importance {
+            border-left: 5px solid #d84315;
+        }
+        
         .importance {
-            border-left: 4px solid var(--accent-gold);
+            border-left-color: #b78103;
         }
 
         .chapter {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-line);
-            padding: 40px;
-            margin-bottom: 50px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px var(--shadow-subtle);
+            border-left: 5px solid #b78103;
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
@@ -163,9 +145,9 @@
 
         h2 {
             font-family: 'Cinzel', serif;
-            color: var(--accent-flame);
+            color: #d84315;
             font-size: 1.35rem;
-            border-bottom: 1px solid var(--border-line);
+            border-bottom: 1px solid #eae4dc;
             padding-bottom: 12px;
             margin-bottom: 24px;
         }
@@ -173,12 +155,12 @@
         p {
             margin-bottom: 20px;
             text-align: justify;
-            color: var(--text-dark);
+            color: #1f1d1b;
         }
 
         .dialogue {
             font-weight: 700;
-            color: var(--accent-glow);
+            color: #e65100;
             margin-top: 25px;
             font-family: 'Cinzel', serif;
             letter-spacing: 0.5px;
@@ -192,13 +174,13 @@
 
         .toc-item {
             margin-bottom: 18px;
-            border-bottom: 1px dashed var(--border-line);
+            border-bottom: 1px dashed #eae4dc;
             padding-bottom: 12px;
         }
 
         .toc-link {
             font-family: 'Cinzel', serif;
-            color: var(--accent-flame);
+            color: #d84315;
             text-decoration: none;
             font-size: 1.05rem;
             font-weight: 700;
@@ -208,17 +190,221 @@
         }
 
         .toc-link:hover {
-            color: var(--accent-gold);
+            color: #b78103;
             transform: translateX(4px);
         }
 
         .toc-quote {
             font-style: italic;
-            color: var(--text-muted);
+            color: #66605b;
             font-size: 0.9rem;
             padding-left: 12px;
-            border-left: 2px solid var(--accent-gold);
+            border-left: 2px solid #b78103;
             margin-top: 4px;
         }
 
         footer {
+            text-align: center;
+            padding: 60px 20px;
+            color: #d84315;
+            font-family: 'Cinzel', serif;
+            border-top: 2px solid #eae4dc;
+            background-color: #ffffff;
+        }
+
+        .copyright {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #66605b;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 600px) {
+            .chapter, .preface, .importance, .toc-section { padding: 24px; }
+            p { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress-container"><div id="progress-bar"></div></div>
+
+    <header>
+        <h1>A Phoenix Journey</h1>
+        <div class="subtitle">One's Conversation With Life (First Edition - Revised)</div>
+        <div class="author">By Ben Wesley Mwanza</div>
+        <div class="publisher">Published by Phoenix view Media</div>
+        <a href="#toc" class="cta-btn">Begin Reading</a>
+    </header>
+
+    <div class="container">
+        
+        <section class="preface">
+            <h2>PREFACE</h2>
+            <p>I came to see that humans tend to set themselves back and get stuck on blaming things that are in the past.</p>
+            <p><em>A Phoenix Journey: One's Conversation With Life</em> is a deeply reflective, philosophical dialogue that wrestles with fundamental human experiences: fairness, discipline, divine purpose, pain, and spiritual truth. It reads like a modern wisdom narrative or a series of allegorical meditations.</p>
+        </section>
+
+        <section class="importance">
+            <h2>THE IMPORTANCE OF THIS BOOK</h2>
+            <p>This book serves as a mirror for the searching heart. In a world consumed by noise, distraction, and immediate gratification, <em>A Phoenix Journey</em> provides an anchor of contemplative wisdom. It encourages the reader to stop projecting blame onto external circumstances and instead turn inward to uncover the transformative power of endurance, self-awareness, and faith.</p>
+            <p>By engaging directly with the voice of Life, this text illuminates how our deepest struggles—uncomfortable transitions, heartbreaks, emotional wounds, and difficult choices—are not accidental roadblocks, but deliberate teachers meant to shape our character and draw us closer to ultimate truth.</p>
+        </section>
+
+        <section class="toc-section" id="toc">
+            <h2>TABLE OF CONTENTS & KEY INSIGHTS</h2>
+            <ul class="toc-list">
+                <li class="toc-item">
+                    <a href="#ch1" class="toc-link">CHAPTER 1: ONE’S CONVERSATION WITH LIFE</a>
+                    <div class="toc-quote">“Consistency doesn’t mean to be pretty... keep doing for you and the silent ones.”</div>
+                </li>
+                <li class="toc-item">
+                    <a href="#ch2" class="toc-link">CHAPTER 2: HUMAN’S COMMON MISTAKES</a>
+                    <div class="toc-quote">“Sense isn’t just found in the wisest places but in all places.”</div>
+                </li>
+                <li class="toc-item">
+                    <a href="#ch3" class="toc-link">CHAPTER 3: THE TWO ROADS</a>
+                    <div class="toc-quote">“Strength comes from endurance of pain.”</div>
+                </li>
+                <li class="toc-item">
+                    <a href="#ch4" class="toc-link">CHAPTER 4: CHANGE AND UNCOMFORTABILITY</a>
+                    <div class="toc-quote">“Life changes where there is uncomfortability.”</div>
+                </li>
+                <li class="toc-item">
+                    <a href="#ch5" class="toc-link">CHAPTER 5: THE CHOICES WE MAKE</a>
+                    <div class="toc-quote">“No matter what you choose, you didn’t choose it but it chose you.”</div>
+                </li>
+                <li class="toc-item">
+                    <a href="#ch6" class="toc-link">CHAPTER 6: THE ONE WHO WANTS SUFFER AND THE ONE WHO DOESN’T</a>
+                    <div class="toc-quote">“True suffering doesn’t teach hate towards others, but instead, it teaches love, peace, faith, obedience, mercy and honesty.”</div>
+                </li>
+                <li class="toc-item">
+                    <a href="#ch7" class="toc-link">CHAPTER 7: THE MISTAKE OF BEING LOVED</a>
+                    <div class="toc-quote">“You will be needed when you have what is needed—don’t see that as love.”</div>
+                </li>
+                <li class="toc-item">
+                    <a href="#ch8" class="toc-link">CHAPTER 8: AN UNDERSTANDING OF AT LEAST WHAT LOVE IS</a>
+                    <div class="toc-quote">“People will treat you according to their moods, don’t let that affect you in your search for what love is.”</div>
+                </li>
+                <li class="toc-item">
+                    <a href="#ch9" class="toc-link">CHAPTER 9: FORGIVENESS AND FORGETTING</a>
+                    <div class="toc-quote">“Forgiveness is not you forgetting, it is choosing peace over poison.”</div>
+                </li>
+                <li class="toc-item">
+                    <a href="#ch10" class="toc-link">CHAPTER 10: HEAR THIS CAREFULLY</a>
+                    <div class="toc-quote">“Seek out understanding and knowledge... do not get covered in what the flesh desires.”</div>
+                </li>
+            </ul>
+        </section>
+
+        <div id="read">
+            <article class="chapter" id="ch1">
+                <h2>CHAPTER 1: ONE’S CONVERSATION WITH LIFE</h2>
+                <p>One spoke to life about how life can be so unfair, but at the same time so fair to other people. Life told One that there are those who pay attention to life’s gifts and those who certainly don’t. Because if you pay close attention to everything in this life, everything is a teacher. So it’s either you are a good student or a bad one. And it’s not like life is unfair to others; it’s just that in this world, some people deny what they are given by life. They want what others have, while forgetting that they have their own life and the things given to them by the One who gave them life. It’s more like a pattern—you just have to see it.</p>
+                <p>Some in this world obtain things that are great because of consistency. I will give an example of the one who gives up and the one who doesn’t. Let’s say there is one who posts content on the internet in order to be noticed by the world, and he reaches his goal by getting followers and a thousand-plus likes and shares. But another is posting without any likes, comments, followers, or shares and gives up. That one will say life is not fair at all, but always remember that even if life seems unfair, there’s always someone out there who wants what you do. So listen: consistency doesn’t mean to be pretty. It means waking up with one like, zero comments, zero mentions, but still choosing to post the content that you want to publish. Because if you think that people are not seeing what you are doing, well... you are certainly wrong. They are, and some are liking it in silence. So keep doing it for you and the silent ones. Life is fair because the Giver gives in fairness.</p>
+                <p>Let me tell you some things about life and humans themselves.</p>
+            </article>
+
+            <article class="chapter" id="ch2">
+                <h2>CHAPTER 2: HUMAN’S COMMON MISTAKES</h2>
+                <p>Humans spend most of their time destroying themselves and spend what little time remains trying to fix themselves. That’s mankind’s way of living.</p>
+                <p>They trade what they want the most for the future for what they want right now, and spend their time trying to fix the past. Instead of learning from the mistakes they have made and taking lessons from other people to avoid them, they end up doing the exact same thing. So, some learn by observing, while some learn by walking the same painful path.</p>
+                <p>Just as a fool cannot receive advice from a wise person, a wise person can get advice from a fool—because sense isn’t just found in the wisest places, but in all places.</p>
+            </article>
+
+            <article class="chapter" id="ch3">
+                <h2>CHAPTER 3: THE TWO ROADS</h2>
+                <p>In this world, there are two roads that life gives. No matter which one you choose, there is death at the end; but keep this in mind: “The road to Hell looks beautiful and sweet like honey, while the road to Heaven looks painful and ugly.” Choose wisely, my friend. And when that road looks like it is taking long to get you to your destination, don’t jump out of it to go onto the next one, and don’t stop when you are halfway to your final point—because the distance back is the same when you are halfway there. I repeat, but in different words: we can say that the road to Hell feels like Heaven, while the road to Heaven feels like Hell. Pay close attention to this, for this is one gift that comes with life. But most of all, the greatest and biggest gift of all is the Word of Life.</p>
+                <p>These roads carry things that require close attention, for if one gets on the wrong one, then one is doomed. Like I said, both roads lead to death. But one is a painful death—death without peace—while the other road has death, but it is peaceful because there is something glorious after it. Chase what gives life: the road that gives life, not the one that takes it away with the illusions of this world. For what this world calls fun is what kills the very person enjoying it. The right road will always look like the wrong road, but when choosing these very roads, seek the Word that speaks the truth, for it will show you the right one to take, and you will then understand why the right one looks painful. “Strength comes from the endurance of pain.”</p>
+            </article>
+
+            <article class="chapter" id="ch4">
+                <h2>CHAPTER 4: CHANGE AND UNCOMFORTABILITY</h2>
+                <p>Change seems hard for many people, and mostly, people always prefer comfortability. But where there is comfortability, there can be no change. You cannot change something that is making you feel good; so for one to change, he must first become uncomfortable with where he is. That’s how life evolves. Life changes where there is uncomfortability.</p>
+                <p>So don’t feel bad if you feel like where you are is very uncomfortable for you. That is not the end of everything; that is life telling you that it needs change. It needs a higher purpose. That’s the whole point of life—it lives in us and we live in it... we are life itself.</p>
+            </article>
+
+            <article class="chapter" id="ch5">
+                <h2>CHAPTER 5: THE CHOICES WE MAKE</h2>
+                <p>We have choices in life; we encounter a thousand choices to be where we are right now. One’s life is built on choices. One might ask, “Why did I make this choice?” Regrets come in when one makes a choice that seems to be wrong, but in life, the choices you made were the choices that were meant for you to see things that were meant to teach you and shape you. They prepare you for things you thought you could handle, but life knew you needed more teaching. Every choice you made led you to exactly where you were meant to be; there is no such thing as a wrong choice in life. A display of choices is given to you: a path of choices is like a road full of junctions. You might be standing at a junction that is fully clouded, or you might be alone at that junction, and the roads ahead may not be clear. But as you go, you find that whether you took the long road or the short road full of brief achievements, no matter what you choose, you didn’t just choose it—it chose you. It’s what humans call fate. When you are not ready, you choose choices that are not ready for you, and in the process, you think that maybe you chose the hard road. But no, you end up being taught by those very choices you took. I strongly advise you to pay attention to the lessons those choices taught you, so that you may choose wisely in the future. Seek out the Word, for it will teach you how to make the right choices.</p>
+                <div class="dialogue">ONE ASKED:</div>
+                <p>What if I don’t pay attention?</p>
+                <div class="dialogue">LIFE ANSWERED:</div>
+                <p>Whatever you choose will bring about the end of something and the start of something you once began to create. The uncounted pieces you once tried to put together will then turn into a long regret that you once started, but then stopped.</p>
+            </article>
+
+            <article class="chapter" id="ch6">
+                <h2>CHAPTER 6: THE ONE WHO WANTS SUFFERING AND THE ONE WHO DOESN’T</h2>
+                <p>I have seen people suffer enough to not want to see it happen to another, and I have seen those who want to project suffering onto others by throwing it at them.</p>
+                <p>The one who wants others to suffer—the one who throws it at others, the one who wishes tears upon others—has no pure thoughts and no true happiness in him. Some might say he has been through a lot to the extent that he knows only that, but the reality is that he is being blinded by it; he hasn’t learned the lesson within it. Because the one who suffers for another, or even just for himself, knows that he carries a lot on his shoulders. Like JESUS CHRIST, He suffered for the world so that happiness and freedom could be felt by he who follows Him.</p>
+                <p>The one who doesn’t want suffering to fall onto others knows and has learned many lessons through it. Having seen so many tears, he knows that he carries not just his own life, but many more. So he will do good to others so that they don’t get trapped by the bad things that come with this world. He will try by all means to direct them to the very Word that gives happiness and life. The one who truly suffers is not blind, but sees every suffering clearly. And I say to you, One: true suffering doesn’t teach hate towards others, but instead, it teaches love, peace, faith, obedience, mercy, and honesty. Because the opposite of these things brings suffering to the one who practices them.</p>
+            </article>
+
+            <article class="chapter" id="ch7">
+                <h2>CHAPTER 7: THE MISTAKE OF BEING LOVED</h2>
+                <p>Sometimes human beings mistake being needed for being loved at that same moment. Then they feel left out in the darkness alone, wondering why that person left them when they needed them back then. They feel emotionally drained. But that wasn’t love—it was just a need. They needed you at that specific moment, but they didn’t love you at that moment. They simply liked what they needed from you, and when it was over, they threw you away like a sheet of paper that has been inked badly and cannot be used again. There is a saying that goes, “You will be needed when you have what is needed,” and I hope that you won’t mistake that for love.</p>
+                <div class="dialogue">ONE ASKED:</div>
+                <p>What is love then, if being needed is not love?</p>
+            </article>
+
+            <article class="chapter" id="ch8">
+                <h2>CHAPTER 8: AN UNDERSTANDING OF AT LEAST WHAT LOVE IS</h2>
+                <p>Love is described in many ways. One could say it is a strong emotion towards someone you don’t want to see suffer. Another could say it is found in the gifts one gives to another. But love is something that comes with pure intent. Love doesn’t hurt, hate, or make someone cry out of malice. Love carries no regrets; love carries protection—not of wounding, but of healing. Love carries no destruction. Some mistake love as something that can bring about hate in order to protect, or bring about destruction in order to guard. Well, that is the love this world has shown you, One. But if you really want to understand love, go and read the Word that contains true love—the Word that teaches how to love.</p>
+                <div class="dialogue">LIFE’S ADVICE TO ONE:</div>
+                <p>“People will treat you according to their moods. Don’t let that affect you in your search for what love is. Don’t hate or hurt the one who treats you badly, but instead understand them, to find peace and to prove that love carries no harm towards another.”</p>
+            </article>
+
+            <article class="chapter" id="ch9">
+                <h2>CHAPTER 9: FORGIVENESS AND FORGETTING</h2>
+                <div class="dialogue">ONE SAID:</div>
+                <p>But sometimes it’s hard to forgive a person when you have been hurt. Just seeing them brings so much pain and resentment because of what they did to you. Some leave scars that can’t even be erased by just trying to forget about that memory. The memory itself carries emotions of pain. How can one forgive such a thing?</p>
+                <div class="dialogue">LIFE ANSWERED:</div>
+                <p>Truly, it is hard to forgive someone who has hurt you. Scars don’t just appear on the flesh, but inside the heart as well. The heart carries far more scars compared to the flesh itself, because most of the pain we carry is emotional pain caused by another’s actions or by words spoken without understanding their weight. The Word strongly encourages Forgiveness and Forgetting. This is where most people find it hard, because forgetting is difficult. As long as you remember that very day someone caused you pain, the feeling comes back, making you want to do the same to them. But someone once explained Forgiveness and Forgetting in a much simpler way so that one can understand what “Forgive and Forget” really means. He said: “Forgiveness is not you forgetting; it is choosing peace over poison. You release the bitterness, not the memory.” It is hard to erase a memory from your mind because as long as that person was part of the life you lived, you will think about their actions—good or bad. Memories replay so that one can recognize another based on their actions, but if you release the poison from those thoughts, you will truly understand that forgiveness is not impossible. People assume those words mean forgetting the person who caused pain entirely, but that is not possible. Forgetting implies something never existed, but something that crossed your path in life is never erased easily. So release the bitterness instead of clinging to the pain it caused. When you truly forgive someone, no matter what happens, you will never inflict the pain they made you feel back onto them.</p>
+                <div class="dialogue">ONE ASKED:</div>
+                <p>What is the Word that you keep directing me to? Is it a book with that title?</p>
+            </article>
+
+            <article class="chapter" id="ch10">
+                <h2>CHAPTER 10: HEAR THIS CAREFULLY</h2>
+                <p>So remove the pain that you feel towards that person, but leave the memory or ignore the negative feelings that come with it, and choose acts of peace.</p>
+                <p>There will be people who will oppose what I have told you in this conversation, but don’t go losing your way trying to defend my words or the truths you have seen here. I am not saying I am right in everything I have spoken, but I am pointing One to the truth which is written in the Word. The entire truth about how to overcome the pain that comes with this world is found by reading, knowing, and understanding the very Word that the Creator of life tells us to read. He only has good planned for us.</p>
+                <p>The Word I speak of is found in a book—a book that almost every house in this world has. But some choose to keep it merely for the sake of respect, though that is barely respect at all. If your Master gives you a book to read—a book that tells you how He wants you to handle His creation and the things He made for you—you ought to read it in order to follow His command. Most people know what is inside; they know the truth, but they choose to ignore it. This book has answers to all the questions humans have. Seek out understanding. This book is found in almost every house, and I am sure you are thinking of it right now. This book I am speaking of is the Bible, and the Word I am speaking of is the Word of God found within it. Seek out understanding and knowledge when reading it, so that you may truly comprehend what it says—because one may read but not know, and one may know but not understand. So seek out understanding and knowledge.</p>
+                <p>Don’t get covered in what the flesh desires, for those are worldly things.</p>
+            </article>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Peace be with you.</p>
+        <div class="copyright">
+            &copy; 2026 Ben Wesley Mwanza. All Rights Reserved.<br>
+            Published by <strong>Phoenix view Media</strong>
+        </div>
+    </footer>
+
+    <script>
+        // Reading progress indicator
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        };
+
+        // Fade in animation on scroll (Intersection Observer)
+        const observerOptions = { threshold: 0.15 };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.chapter').forEach(chapter => {
+            observer.observe(chapter);
+        });
+    </script>
+</body>
+</html>
