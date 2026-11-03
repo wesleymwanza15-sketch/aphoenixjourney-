@@ -6,8 +6,18 @@
     <title>A Phoenix Journey — One's Conversation With Life</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-dark: #0a0503;
+            --card-bg: #140a05;
+            --text-light: #f5f2eb;
+            --accent-flame: #ff5722;
+            --accent-glow: #ff8a65;
+            --accent-gold: #ffc107;
+            --border-line: #2d140a;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         html {
@@ -15,9 +25,8 @@
         }
 
         body {
-            /* Background Nature Image */
-            background: url('images/20260416_165634.jpeg') center / cover fixed no-repeat;
-            color: #111111;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
             font-family: 'Lora', serif;
             line-height: 1.85;
             overflow-x: hidden;
@@ -30,109 +39,116 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: rgba(0,0,0,0.1);
+            background: transparent;
             z-index: 1000;
         }
         #progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #d84315, #b78103);
+            background: linear-gradient(90deg, var(--accent-flame), var(--accent-gold));
             width: 0%;
             transition: width 0.1s ease-out;
         }
 
         /* Hero Section */
         header {
-            min-height: 80vh;
+            min-height: 85vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 60px 20px;
+            padding: 40px 20px;
             position: relative;
-            background-color: rgba(255, 255, 255, 0.94);
-            border-bottom: 2px solid #eae4dc;
+            background: radial-gradient(circle at center, #240e05 0%, var(--bg-dark) 70%);
         }
 
         h1 {
             font-family: 'Cinzel', serif;
-            color: #d84315;
+            color: var(--accent-flame);
             font-size: clamp(2.2rem, 6vw, 4rem);
             letter-spacing: 2px;
             margin-bottom: 12px;
+            text-shadow: 0 0 20px rgba(255, 87, 34, 0.3);
+            animation: fadeInDown 1.2s ease-out;
         }
 
         .subtitle {
             font-size: clamp(1.1rem, 3vw, 1.5rem);
-            color: #b78103;
+            color: var(--accent-gold);
             font-style: italic;
             margin-bottom: 8px;
+            animation: fadeInUp 1.2s ease-out 0.2s backwards;
         }
 
         .author {
             font-family: 'Cinzel', serif;
             font-size: 0.95rem;
-            color: #555555;
+            color: #b0bec5;
             text-transform: uppercase;
             letter-spacing: 3px;
             margin-bottom: 15px;
+            animation: fadeInUp 1.2s ease-out 0.4s backwards;
         }
 
         .publisher {
             font-family: 'Cinzel', serif;
             font-size: 0.85rem;
-            color: #e65100;
+            color: var(--accent-glow);
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
+            animation: fadeInUp 1.2s ease-out 0.5s backwards;
         }
 
-        /* Flame Button */
+        /* Animated Flame Button */
         .cta-btn {
             display: inline-block;
-            background: linear-gradient(135deg, #d84315, #bf360c);
-            color: #ffffff;
-            padding: 14px 34px;
+            background: linear-gradient(135deg, var(--accent-flame), #e64a19);
+            color: #fff;
+            padding: 14px 32px;
             text-decoration: none;
             font-family: 'Cinzel', serif;
             font-weight: 700;
             border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(216, 67, 21, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
             transition: all 0.3s ease;
+            animation: fadeInUp 1.2s ease-out 0.6s backwards;
         }
 
         .cta-btn:hover {
             transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 8px 25px rgba(216, 67, 21, 0.5);
-            background: linear-gradient(135deg, #f4511e, #d84315);
+            box-shadow: 0 8px 25px rgba(255, 87, 34, 0.6);
+            background: linear-gradient(135deg, #ff7043, var(--accent-flame));
         }
 
-        /* Container & Solid White Cards */
+        /* Container & Cards */
         .container {
             max-width: 780px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 20px;
         }
 
-        .preface, .importance, .toc-section, .chapter {
-            background-color: #ffffff;
-            border: 1px solid #dcd6cd;
-            padding: 40px;
+        .preface, .importance, .toc-section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-line);
+            border-left: 4px solid var(--accent-flame);
+            padding: 30px;
             margin-bottom: 40px;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .preface, .importance {
-            border-left: 5px solid #d84315;
-        }
-        
         .importance {
-            border-left-color: #b78103;
+            border-left: 4px solid var(--accent-gold);
         }
 
         .chapter {
-            border-left: 5px solid #b78103;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-line);
+            padding: 35px;
+            margin-bottom: 50px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
@@ -145,9 +161,9 @@
 
         h2 {
             font-family: 'Cinzel', serif;
-            color: #d84315;
-            font-size: 1.35rem;
-            border-bottom: 1px solid #eae4dc;
+            color: var(--accent-gold);
+            font-size: 1.4rem;
+            border-bottom: 1px solid var(--border-line);
             padding-bottom: 12px;
             margin-bottom: 24px;
         }
@@ -155,12 +171,12 @@
         p {
             margin-bottom: 20px;
             text-align: justify;
-            color: #1f1d1b;
+            color: #e0e0e0;
         }
 
         .dialogue {
-            font-weight: 700;
-            color: #e65100;
+            font-weight: 600;
+            color: var(--accent-glow);
             margin-top: 25px;
             font-family: 'Cinzel', serif;
             letter-spacing: 0.5px;
@@ -174,53 +190,63 @@
 
         .toc-item {
             margin-bottom: 18px;
-            border-bottom: 1px dashed #eae4dc;
+            border-bottom: 1px dashed var(--border-line);
             padding-bottom: 12px;
         }
 
         .toc-link {
             font-family: 'Cinzel', serif;
-            color: #d84315;
+            color: var(--accent-gold);
             text-decoration: none;
             font-size: 1.05rem;
-            font-weight: 700;
+            font-weight: 600;
             display: block;
             margin-bottom: 4px;
             transition: color 0.3s ease, transform 0.2s ease;
         }
 
         .toc-link:hover {
-            color: #b78103;
+            color: var(--accent-flame);
             transform: translateX(4px);
         }
 
         .toc-quote {
             font-style: italic;
-            color: #66605b;
+            color: #b0bec5;
             font-size: 0.9rem;
             padding-left: 12px;
-            border-left: 2px solid #b78103;
+            border-left: 2px solid var(--accent-flame);
             margin-top: 4px;
         }
 
         footer {
             text-align: center;
             padding: 60px 20px;
-            color: #d84315;
+            color: var(--accent-gold);
             font-family: 'Cinzel', serif;
-            border-top: 2px solid #eae4dc;
-            background-color: #ffffff;
+            border-top: 1px solid var(--border-line);
+            background: linear-gradient(to top, #1a0a03, var(--bg-dark));
         }
 
         .copyright {
             margin-top: 15px;
             font-size: 0.85rem;
-            color: #66605b;
+            color: #b0bec5;
             letter-spacing: 1px;
         }
 
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @media (max-width: 600px) {
-            .chapter, .preface, .importance, .toc-section { padding: 24px; }
+            .chapter, .preface, .importance, .toc-section { padding: 22px; }
             p { text-align: left; }
         }
     </style>
