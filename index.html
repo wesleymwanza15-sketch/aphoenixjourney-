@@ -1,436 +1,1077 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Phoenix Journey — One's Conversation With Life</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ember: {
+                            50: '#fff3e0',
+                            100: '#ffe0b2',
+                            400: '#ff7043',
+                            500: '#ff5722',
+                            600: '#e64a19',
+                            900: '#240e05',
+                            950: '#0a0503',
+                        },
+                        gold: {
+                            400: '#ffd54f',
+                            500: '#ffc107',
+                            600: '#ffb300',
+                            700: '#ffa000',
+                        },
+                        parchment: {
+                            50: '#faf7f0',
+                            100: '#f4eee1',
+                            200: '#e8dec9',
+                            800: '#3a281d',
+                            900: '#231710',
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Cinzel', 'serif'],
+                        body: ['Lora', 'Georgia', 'serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
+        /* Base Themes */
         :root {
-            --bg-dark: #0a0503;
-            --card-bg: #140a05;
-            --text-light: #f5f2eb;
+            --bg-overlay: rgba(10, 5, 3, 0.88);
+            --card-bg: rgba(20, 10, 5, 0.82);
+            --card-border: rgba(255, 87, 34, 0.2);
+            --text-main: #f5f2eb;
+            --text-muted: #c4b5a5;
             --accent-flame: #ff5722;
-            --accent-glow: #ff8a65;
             --accent-gold: #ffc107;
-            --border-line: #2d140a;
+            --dialogue-bg: rgba(255, 87, 34, 0.08);
+            --font-scale: 1rem;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        html {
-            scroll-behavior: smooth;
+        .theme-parchment {
+            --bg-overlay: rgba(244, 238, 225, 0.94);
+            --card-bg: rgba(250, 247, 240, 0.95);
+            --card-border: rgba(183, 129, 3, 0.25);
+            --text-main: #231710;
+            --text-muted: #5c4738;
+            --accent-flame: #d84315;
+            --accent-gold: #b78103;
+            --dialogue-bg: rgba(216, 67, 21, 0.06);
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
             font-family: 'Lora', serif;
+            color: var(--text-main);
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Responsive Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 5, 3, 0.9);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff5722;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ffc107;
+        }
+
+        /* Dynamic Reading Font Sizing */
+        .reader-text-container {
+            font-size: var(--font-scale);
             line-height: 1.85;
-            overflow-x: hidden;
         }
 
-        /* Reading Progress Bar */
-        #progress-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: transparent;
-            z-index: 1000;
-        }
-        #progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-flame), var(--accent-gold));
-            width: 0%;
-            transition: width 0.1s ease-out;
-        }
-
-        /* Hero Section */
-        header {
-            min-height: 85vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 40px 20px;
-            position: relative;
-            background: radial-gradient(circle at center, #240e05 0%, var(--bg-dark) 70%);
-        }
-
-        h1 {
+        /* Classical Drop Cap for First Paragraph of Chapter */
+        .chapter-body > p:first-of-type::first-letter {
             font-family: 'Cinzel', serif;
+            font-size: 3.4em;
+            float: left;
+            line-height: 0.85;
+            margin-right: 0.15em;
+            margin-top: 0.05em;
             color: var(--accent-flame);
-            font-size: clamp(2.2rem, 6vw, 4rem);
-            letter-spacing: 2px;
-            margin-bottom: 12px;
-            text-shadow: 0 0 20px rgba(255, 87, 34, 0.3);
-            animation: fadeInDown 1.2s ease-out;
-        }
-
-        .subtitle {
-            font-size: clamp(1.1rem, 3vw, 1.5rem);
-            color: var(--accent-gold);
-            font-style: italic;
-            margin-bottom: 8px;
-            animation: fadeInUp 1.2s ease-out 0.2s backwards;
-        }
-
-        .author {
-            font-family: 'Cinzel', serif;
-            font-size: 0.95rem;
-            color: #b0bec5;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 15px;
-            animation: fadeInUp 1.2s ease-out 0.4s backwards;
-        }
-
-        .publisher {
-            font-family: 'Cinzel', serif;
-            font-size: 0.85rem;
-            color: var(--accent-glow);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
-            animation: fadeInUp 1.2s ease-out 0.5s backwards;
-        }
-
-        /* Animated Flame Button */
-        .cta-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--accent-flame), #e64a19);
-            color: #fff;
-            padding: 14px 32px;
-            text-decoration: none;
-            font-family: 'Cinzel', serif;
             font-weight: 700;
-            border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
-            transition: all 0.3s ease;
-            animation: fadeInUp 1.2s ease-out 0.6s backwards;
+            text-shadow: 0 0 10px rgba(255, 87, 34, 0.3);
         }
 
-        .cta-btn:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 8px 25px rgba(255, 87, 34, 0.6);
-            background: linear-gradient(135deg, #ff7043, var(--accent-flame));
+        /* Custom Backdrop styling */
+        #hero-backdrop {
+            background-image: url('watermarked_img_11066808352937520444.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
-        /* Container & Cards */
-        .container {
-            max-width: 780px;
-            margin: 0 auto;
-            padding: 20px;
+        /* Glassmorphism styling */
+        .glass-panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
         }
 
-        .preface, .importance, .toc-section {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-line);
-            border-left: 4px solid var(--accent-flame);
-            padding: 30px;
-            margin-bottom: 40px;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .importance {
+        .dialogue-box {
+            background: var(--dialogue-bg);
             border-left: 4px solid var(--accent-gold);
         }
 
-        .chapter {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-line);
-            padding: 35px;
-            margin-bottom: 50px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        /* Smooth reveal animations */
+        .chapter-card {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transform: translateY(30px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .chapter.visible {
+        .chapter-card.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        h2 {
-            font-family: 'Cinzel', serif;
-            color: var(--accent-gold);
-            font-size: 1.4rem;
-            border-bottom: 1px solid var(--border-line);
-            padding-bottom: 12px;
-            margin-bottom: 24px;
+        /* Toast animation */
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
-
-        p {
-            margin-bottom: 20px;
-            text-align: justify;
-            color: #e0e0e0;
-        }
-
-        .dialogue {
-            font-weight: 600;
-            color: var(--accent-glow);
-            margin-top: 25px;
-            font-family: 'Cinzel', serif;
-            letter-spacing: 0.5px;
-        }
-
-        /* Table of Contents Styling */
-        .toc-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .toc-item {
-            margin-bottom: 18px;
-            border-bottom: 1px dashed var(--border-line);
-            padding-bottom: 12px;
-        }
-
-        .toc-link {
-            font-family: 'Cinzel', serif;
-            color: var(--accent-gold);
-            text-decoration: none;
-            font-size: 1.05rem;
-            font-weight: 600;
-            display: block;
-            margin-bottom: 4px;
-            transition: color 0.3s ease, transform 0.2s ease;
-        }
-
-        .toc-link:hover {
-            color: var(--accent-flame);
-            transform: translateX(4px);
-        }
-
-        .toc-quote {
-            font-style: italic;
-            color: #b0bec5;
-            font-size: 0.9rem;
-            padding-left: 12px;
-            border-left: 2px solid var(--accent-flame);
-            margin-top: 4px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--accent-gold);
-            font-family: 'Cinzel', serif;
-            border-top: 1px solid var(--border-line);
-            background: linear-gradient(to top, #1a0a03, var(--bg-dark));
-        }
-
-        .copyright {
-            margin-top: 15px;
-            font-size: 0.85rem;
-            color: #b0bec5;
-            letter-spacing: 1px;
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 600px) {
-            .chapter, .preface, .importance, .toc-section { padding: 22px; }
-            p { text-align: left; }
+        .toast-animate {
+            animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
     </style>
 </head>
-<body>
+<body class="bg-ember-950 min-h-screen relative antialiased selection:bg-ember-500 selection:text-white">
 
-    <div id="progress-container"><div id="progress-bar"></div></div>
-
-    <header>
-        <h1>A Phoenix Journey</h1>
-        <div class="subtitle">One's Conversation With Life (First Edition - Revised)</div>
-        <div class="author">By Ben Wesley Mwanza</div>
-        <div class="publisher">Published by Phoenix view Media</div>
-        <a href="#toc" class="cta-btn">Begin Reading</a>
-    </header>
-
-    <div class="container">
-        
-        <section class="preface">
-            <h2>PREFACE</h2>
-            <p>I came to see that humans tend to set themselves back and get stuck on blaming things that are in the past.</p>
-            <p><em>A Phoenix Journey: One's Conversation With Life</em> is a deeply reflective, philosophical dialogue that wrestles with fundamental human experiences: fairness, discipline, divine purpose, pain, and spiritual truth. It reads like a modern wisdom narrative or a series of allegorical meditations.</p>
-        </section>
-
-        <section class="importance">
-            <h2>THE IMPORTANCE OF THIS BOOK</h2>
-            <p>This book serves as a mirror for the searching heart. In a world consumed by noise, distraction, and immediate gratification, <em>A Phoenix Journey</em> provides an anchor of contemplative wisdom. It encourages the reader to stop projecting blame onto external circumstances and instead turn inward to uncover the transformative power of endurance, self-awareness, and faith.</p>
-            <p>By engaging directly with the voice of Life, this text illuminates how our deepest struggles—uncomfortable transitions, heartbreaks, emotional wounds, and difficult choices—are not accidental roadblocks, but deliberate teachers meant to shape our character and draw us closer to ultimate truth.</p>
-        </section>
-
-        <section class="toc-section" id="toc">
-            <h2>TABLE OF CONTENTS & KEY INSIGHTS</h2>
-            <ul class="toc-list">
-                <li class="toc-item">
-                    <a href="#ch1" class="toc-link">CHAPTER 1: ONE’S CONVERSATION WITH LIFE</a>
-                    <div class="toc-quote">“Consistency doesn’t mean to be pretty... keep doing for you and the silent ones.”</div>
-                </li>
-                <li class="toc-item">
-                    <a href="#ch2" class="toc-link">CHAPTER 2: HUMAN’S COMMON MISTAKES</a>
-                    <div class="toc-quote">“Sense isn’t just found in the wisest places but in all places.”</div>
-                </li>
-                <li class="toc-item">
-                    <a href="#ch3" class="toc-link">CHAPTER 3: THE TWO ROADS</a>
-                    <div class="toc-quote">“Strength comes from endurance of pain.”</div>
-                </li>
-                <li class="toc-item">
-                    <a href="#ch4" class="toc-link">CHAPTER 4: CHANGE AND UNCOMFORTABILITY</a>
-                    <div class="toc-quote">“Life changes where there is uncomfortability.”</div>
-                </li>
-                <li class="toc-item">
-                    <a href="#ch5" class="toc-link">CHAPTER 5: THE CHOICES WE MAKE</a>
-                    <div class="toc-quote">“No matter what you choose, you didn’t choose it but it chose you.”</div>
-                </li>
-                <li class="toc-item">
-                    <a href="#ch6" class="toc-link">CHAPTER 6: THE ONE WHO WANTS SUFFER AND THE ONE WHO DOESN’T</a>
-                    <div class="toc-quote">“True suffering doesn’t teach hate towards others, but instead, it teaches love, peace, faith, obedience, mercy and honesty.”</div>
-                </li>
-                <li class="toc-item">
-                    <a href="#ch7" class="toc-link">CHAPTER 7: THE MISTAKE OF BEING LOVED</a>
-                    <div class="toc-quote">“You will be needed when you have what is needed—don’t see that as love.”</div>
-                </li>
-                <li class="toc-item">
-                    <a href="#ch8" class="toc-link">CHAPTER 8: AN UNDERSTANDING OF AT LEAST WHAT LOVE IS</a>
-                    <div class="toc-quote">“People will treat you according to their moods, don’t let that affect you in your search for what love is.”</div>
-                </li>
-                <li class="toc-item">
-                    <a href="#ch9" class="toc-link">CHAPTER 9: FORGIVENESS AND FORGETTING</a>
-                    <div class="toc-quote">“Forgiveness is not you forgetting, it is choosing peace over poison.”</div>
-                </li>
-                <li class="toc-item">
-                    <a href="#ch10" class="toc-link">CHAPTER 10: HEAR THIS CAREFULLY</a>
-                    <div class="toc-quote">“Seek out understanding and knowledge... do not get covered in what the flesh desires.”</div>
-                </li>
-            </ul>
-        </section>
-
-        <div id="read">
-            <article class="chapter" id="ch1">
-                <h2>CHAPTER 1: ONE’S CONVERSATION WITH LIFE</h2>
-                <p>One spoke to life about how life can be so unfair, but at the same time so fair to other people. Life told One that there are those who pay attention to life’s gifts and those who certainly don’t. Because if you pay close attention to everything in this life, everything is a teacher. So it’s either you are a good student or a bad one. And it’s not like life is unfair to others; it’s just that in this world, some people deny what they are given by life. They want what others have, while forgetting that they have their own life and the things given to them by the One who gave them life. It’s more like a pattern—you just have to see it.</p>
-                <p>Some in this world obtain things that are great because of consistency. I will give an example of the one who gives up and the one who doesn’t. Let’s say there is one who posts content on the internet in order to be noticed by the world, and he reaches his goal by getting followers and a thousand-plus likes and shares. But another is posting without any likes, comments, followers, or shares and gives up. That one will say life is not fair at all, but always remember that even if life seems unfair, there’s always someone out there who wants what you do. So listen: consistency doesn’t mean to be pretty. It means waking up with one like, zero comments, zero mentions, but still choosing to post the content that you want to publish. Because if you think that people are not seeing what you are doing, well... you are certainly wrong. They are, and some are liking it in silence. So keep doing it for you and the silent ones. Life is fair because the Giver gives in fairness.</p>
-                <p>Let me tell you some things about life and humans themselves.</p>
-            </article>
-
-            <article class="chapter" id="ch2">
-                <h2>CHAPTER 2: HUMAN’S COMMON MISTAKES</h2>
-                <p>Humans spend most of their time destroying themselves and spend what little time remains trying to fix themselves. That’s mankind’s way of living.</p>
-                <p>They trade what they want the most for the future for what they want right now, and spend their time trying to fix the past. Instead of learning from the mistakes they have made and taking lessons from other people to avoid them, they end up doing the exact same thing. So, some learn by observing, while some learn by walking the same painful path.</p>
-                <p>Just as a fool cannot receive advice from a wise person, a wise person can get advice from a fool—because sense isn’t just found in the wisest places, but in all places.</p>
-            </article>
-
-            <article class="chapter" id="ch3">
-                <h2>CHAPTER 3: THE TWO ROADS</h2>
-                <p>In this world, there are two roads that life gives. No matter which one you choose, there is death at the end; but keep this in mind: “The road to Hell looks beautiful and sweet like honey, while the road to Heaven looks painful and ugly.” Choose wisely, my friend. And when that road looks like it is taking long to get you to your destination, don’t jump out of it to go onto the next one, and don’t stop when you are halfway to your final point—because the distance back is the same when you are halfway there. I repeat, but in different words: we can say that the road to Hell feels like Heaven, while the road to Heaven feels like Hell. Pay close attention to this, for this is one gift that comes with life. But most of all, the greatest and biggest gift of all is the Word of Life.</p>
-                <p>These roads carry things that require close attention, for if one gets on the wrong one, then one is doomed. Like I said, both roads lead to death. But one is a painful death—death without peace—while the other road has death, but it is peaceful because there is something glorious after it. Chase what gives life: the road that gives life, not the one that takes it away with the illusions of this world. For what this world calls fun is what kills the very person enjoying it. The right road will always look like the wrong road, but when choosing these very roads, seek the Word that speaks the truth, for it will show you the right one to take, and you will then understand why the right one looks painful. “Strength comes from the endurance of pain.”</p>
-            </article>
-
-            <article class="chapter" id="ch4">
-                <h2>CHAPTER 4: CHANGE AND UNCOMFORTABILITY</h2>
-                <p>Change seems hard for many people, and mostly, people always prefer comfortability. But where there is comfortability, there can be no change. You cannot change something that is making you feel good; so for one to change, he must first become uncomfortable with where he is. That’s how life evolves. Life changes where there is uncomfortability.</p>
-                <p>So don’t feel bad if you feel like where you are is very uncomfortable for you. That is not the end of everything; that is life telling you that it needs change. It needs a higher purpose. That’s the whole point of life—it lives in us and we live in it... we are life itself.</p>
-            </article>
-
-            <article class="chapter" id="ch5">
-                <h2>CHAPTER 5: THE CHOICES WE MAKE</h2>
-                <p>We have choices in life; we encounter a thousand choices to be where we are right now. One’s life is built on choices. One might ask, “Why did I make this choice?” Regrets come in when one makes a choice that seems to be wrong, but in life, the choices you made were the choices that were meant for you to see things that were meant to teach you and shape you. They prepare you for things you thought you could handle, but life knew you needed more teaching. Every choice you made led you to exactly where you were meant to be; there is no such thing as a wrong choice in life. A display of choices is given to you: a path of choices is like a road full of junctions. You might be standing at a junction that is fully clouded, or you might be alone at that junction, and the roads ahead may not be clear. But as you go, you find that whether you took the long road or the short road full of brief achievements, no matter what you choose, you didn’t just choose it—it chose you. It’s what humans call fate. When you are not ready, you choose choices that are not ready for you, and in the process, you think that maybe you chose the hard road. But no, you end up being taught by those very choices you took. I strongly advise you to pay attention to the lessons those choices taught you, so that you may choose wisely in the future. Seek out the Word, for it will teach you how to make the right choices.</p>
-                <div class="dialogue">ONE ASKED:</div>
-                <p>What if I don’t pay attention?</p>
-                <div class="dialogue">LIFE ANSWERED:</div>
-                <p>Whatever you choose will bring about the end of something and the start of something you once began to create. The uncounted pieces you once tried to put together will then turn into a long regret that you once started, but then stopped.</p>
-            </article>
-
-            <article class="chapter" id="ch6">
-                <h2>CHAPTER 6: THE ONE WHO WANTS SUFFERING AND THE ONE WHO DOESN’T</h2>
-                <p>I have seen people suffer enough to not want to see it happen to another, and I have seen those who want to project suffering onto others by throwing it at them.</p>
-                <p>The one who wants others to suffer—the one who throws it at others, the one who wishes tears upon others—has no pure thoughts and no true happiness in him. Some might say he has been through a lot to the extent that he knows only that, but the reality is that he is being blinded by it; he hasn’t learned the lesson within it. Because the one who suffers for another, or even just for himself, knows that he carries a lot on his shoulders. Like JESUS CHRIST, He suffered for the world so that happiness and freedom could be felt by he who follows Him.</p>
-                <p>The one who doesn’t want suffering to fall onto others knows and has learned many lessons through it. Having seen so many tears, he knows that he carries not just his own life, but many more. So he will do good to others so that they don’t get trapped by the bad things that come with this world. He will try by all means to direct them to the very Word that gives happiness and life. The one who truly suffers is not blind, but sees every suffering clearly. And I say to you, One: true suffering doesn’t teach hate towards others, but instead, it teaches love, peace, faith, obedience, mercy, and honesty. Because the opposite of these things brings suffering to the one who practices them.</p>
-            </article>
-
-            <article class="chapter" id="ch7">
-                <h2>CHAPTER 7: THE MISTAKE OF BEING LOVED</h2>
-                <p>Sometimes human beings mistake being needed for being loved at that same moment. Then they feel left out in the darkness alone, wondering why that person left them when they needed them back then. They feel emotionally drained. But that wasn’t love—it was just a need. They needed you at that specific moment, but they didn’t love you at that moment. They simply liked what they needed from you, and when it was over, they threw you away like a sheet of paper that has been inked badly and cannot be used again. There is a saying that goes, “You will be needed when you have what is needed,” and I hope that you won’t mistake that for love.</p>
-                <div class="dialogue">ONE ASKED:</div>
-                <p>What is love then, if being needed is not love?</p>
-            </article>
-
-            <article class="chapter" id="ch8">
-                <h2>CHAPTER 8: AN UNDERSTANDING OF AT LEAST WHAT LOVE IS</h2>
-                <p>Love is described in many ways. One could say it is a strong emotion towards someone you don’t want to see suffer. Another could say it is found in the gifts one gives to another. But love is something that comes with pure intent. Love doesn’t hurt, hate, or make someone cry out of malice. Love carries no regrets; love carries protection—not of wounding, but of healing. Love carries no destruction. Some mistake love as something that can bring about hate in order to protect, or bring about destruction in order to guard. Well, that is the love this world has shown you, One. But if you really want to understand love, go and read the Word that contains true love—the Word that teaches how to love.</p>
-                <div class="dialogue">LIFE’S ADVICE TO ONE:</div>
-                <p>“People will treat you according to their moods. Don’t let that affect you in your search for what love is. Don’t hate or hurt the one who treats you badly, but instead understand them, to find peace and to prove that love carries no harm towards another.”</p>
-            </article>
-
-            <article class="chapter" id="ch9">
-                <h2>CHAPTER 9: FORGIVENESS AND FORGETTING</h2>
-                <div class="dialogue">ONE SAID:</div>
-                <p>But sometimes it’s hard to forgive a person when you have been hurt. Just seeing them brings so much pain and resentment because of what they did to you. Some leave scars that can’t even be erased by just trying to forget about that memory. The memory itself carries emotions of pain. How can one forgive such a thing?</p>
-                <div class="dialogue">LIFE ANSWERED:</div>
-                <p>Truly, it is hard to forgive someone who has hurt you. Scars don’t just appear on the flesh, but inside the heart as well. The heart carries far more scars compared to the flesh itself, because most of the pain we carry is emotional pain caused by another’s actions or by words spoken without understanding their weight. The Word strongly encourages Forgiveness and Forgetting. This is where most people find it hard, because forgetting is difficult. As long as you remember that very day someone caused you pain, the feeling comes back, making you want to do the same to them. But someone once explained Forgiveness and Forgetting in a much simpler way so that one can understand what “Forgive and Forget” really means. He said: “Forgiveness is not you forgetting; it is choosing peace over poison. You release the bitterness, not the memory.” It is hard to erase a memory from your mind because as long as that person was part of the life you lived, you will think about their actions—good or bad. Memories replay so that one can recognize another based on their actions, but if you release the poison from those thoughts, you will truly understand that forgiveness is not impossible. People assume those words mean forgetting the person who caused pain entirely, but that is not possible. Forgetting implies something never existed, but something that crossed your path in life is never erased easily. So release the bitterness instead of clinging to the pain it caused. When you truly forgive someone, no matter what happens, you will never inflict the pain they made you feel back onto them.</p>
-                <div class="dialogue">ONE ASKED:</div>
-                <p>What is the Word that you keep directing me to? Is it a book with that title?</p>
-            </article>
-
-            <article class="chapter" id="ch10">
-                <h2>CHAPTER 10: HEAR THIS CAREFULLY</h2>
-                <p>So remove the pain that you feel towards that person, but leave the memory or ignore the negative feelings that come with it, and choose acts of peace.</p>
-                <p>There will be people who will oppose what I have told you in this conversation, but don’t go losing your way trying to defend my words or the truths you have seen here. I am not saying I am right in everything I have spoken, but I am pointing One to the truth which is written in the Word. The entire truth about how to overcome the pain that comes with this world is found by reading, knowing, and understanding the very Word that the Creator of life tells us to read. He only has good planned for us.</p>
-                <p>The Word I speak of is found in a book—a book that almost every house in this world has. But some choose to keep it merely for the sake of respect, though that is barely respect at all. If your Master gives you a book to read—a book that tells you how He wants you to handle His creation and the things He made for you—you ought to read it in order to follow His command. Most people know what is inside; they know the truth, but they choose to ignore it. This book has answers to all the questions humans have. Seek out understanding. This book is found in almost every house, and I am sure you are thinking of it right now. This book I am speaking of is the Bible, and the Word I am speaking of is the Word of God found within it. Seek out understanding and knowledge when reading it, so that you may truly comprehend what it says—because one may read but not know, and one may know but not understand. So seek out understanding and knowledge.</p>
-                <p>Don’t get covered in what the flesh desires, for those are worldly things.</p>
-            </article>
-        </div>
-
+    <!-- Fixed Atmospheric Backdrop Layer -->
+    <div id="hero-backdrop" class="fixed inset-0 z-0 pointer-events-none transition-all duration-500">
+        <!-- Overlay Vignette -->
+        <div id="backdrop-overlay" class="absolute inset-0 bg-gradient-to-b from-ember-950/80 via-ember-950/90 to-ember-950 transition-colors duration-500"></div>
     </div>
 
-    <footer>
-        <p>Peace be with you.</p>
-        <div class="copyright">
-            &copy; 2026 Ben Wesley Mwanza. All Rights Reserved.<br>
-            Published by <strong>Phoenix view Media</strong>
+    <!-- Reading Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-1 z-50 bg-black/40">
+        <div id="progress-bar" class="h-full bg-gradient-to-r from-ember-500 via-ember-400 to-gold-500 w-0 transition-all duration-150 shadow-[0_0_10px_#ff5722]"></div>
+    </div>
+
+    <!-- Floating Reader Glass Header -->
+    <header id="main-header" class="fixed top-2 inset-x-2 md:inset-x-6 z-40 max-w-6xl mx-auto rounded-full transition-all duration-300">
+        <div class="glass-panel rounded-full px-4 py-2.5 flex items-center justify-between shadow-2xl">
+            <!-- Left: Book Title & Active Chapter Indicator -->
+            <div class="flex items-center space-x-3 overflow-hidden">
+                <a href="#hero" class="flex items-center space-x-2 text-amber-500 hover:text-ember-400 transition-colors flex-shrink-0">
+                    <i data-lucide="flame" class="w-5 h-5 fill-current"></i>
+                    <span class="font-display font-bold text-xs md:text-sm tracking-wider uppercase hidden sm:inline">A Phoenix Journey</span>
+                </a>
+                <span class="text-xs text-amber-500/40 hidden md:inline">|</span>
+                <span id="header-chapter-title" class="text-xs md:text-sm font-display font-semibold truncate text-amber-200/90 max-w-[160px] sm:max-w-[280px] md:max-w-[360px]">
+                    Cover Page
+                </span>
+            </div>
+
+            <!-- Right Toolbar Controls -->
+            <div class="flex items-center space-x-1.5 md:space-x-2 flex-shrink-0">
+                <!-- TOC Drawer Button -->
+                <button id="btn-toc" class="p-2 rounded-full hover:bg-white/10 text-amber-200 transition-all flex items-center space-x-1 text-xs font-sans font-medium" title="Table of Contents">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    <span class="hidden lg:inline">Contents</span>
+                </button>
+
+                <div class="h-4 w-[1px] bg-white/15 mx-1"></div>
+
+                <!-- Font Size Decrease -->
+                <button id="btn-font-dec" class="p-1.5 rounded-full hover:bg-white/10 text-amber-200 transition-all text-xs font-display font-bold" title="Decrease Font Size">
+                    A-
+                </button>
+                <span id="font-size-label" class="text-[10px] font-sans font-semibold text-amber-400/80 w-7 text-center">100%</span>
+                <!-- Font Size Increase -->
+                <button id="btn-font-inc" class="p-1.5 rounded-full hover:bg-white/10 text-amber-200 transition-all text-sm font-display font-bold" title="Increase Font Size">
+                    A+
+                </button>
+
+                <div class="h-4 w-[1px] bg-white/15 mx-1"></div>
+
+                <!-- Theme Toggle -->
+                <button id="btn-theme" class="p-2 rounded-full hover:bg-white/10 text-amber-200 transition-all" title="Toggle Theme (Dark Ember / Warm Parchment)">
+                    <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                    <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
+                </button>
+
+                <!-- Custom Backdrop Picker Button -->
+                <button id="btn-backdrop-trigger" class="p-2 rounded-full hover:bg-white/10 text-amber-200 transition-all" title="Change Background Image">
+                    <i data-lucide="image" class="w-4 h-4"></i>
+                </button>
+                <input type="file" id="backdrop-file-input" accept="image/*" class="hidden">
+            </div>
+        </div>
+    </header>
+
+    <!-- Slide-out Table of Contents Drawer Modal -->
+    <div id="toc-drawer" class="fixed inset-0 z-50 pointer-events-none opacity-0 transition-opacity duration-300">
+        <!-- Backdrop blur overlay -->
+        <div id="toc-overlay" class="absolute inset-0 bg-black/70 backdrop-blur-md pointer-events-auto"></div>
+        
+        <!-- Drawer Panel -->
+        <aside class="absolute top-0 right-0 h-full w-full max-w-md glass-panel p-6 overflow-y-auto pointer-events-auto transform translate-x-full transition-transform duration-300 shadow-2xl flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="compass" class="w-5 h-5 text-ember-400"></i>
+                        <h3 class="font-display font-bold text-lg text-gold-400">Navigation & Index</h3>
+                    </div>
+                    <button id="btn-close-toc" class="p-1.5 rounded-full hover:bg-white/10 text-amber-200">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Instant Filter / Search Input -->
+                <div class="relative mb-5">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-amber-400/60"></i>
+                    <input type="text" id="toc-search" placeholder="Search chapters or themes..." class="w-full bg-black/30 border border-white/15 rounded-xl pl-9 pr-4 py-2 text-sm text-amber-100 placeholder-amber-400/40 focus:outline-none focus:border-ember-500">
+                </div>
+
+                <!-- TOC Links List -->
+                <nav class="space-y-2" id="toc-drawer-list">
+                    <a href="#hero" class="toc-drawer-item flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 text-amber-200 transition-all text-sm font-display">
+                        <span>Book Cover & Title</span>
+                        <i data-lucide="chevron-right" class="w-4 h-4 opacity-50"></i>
+                    </a>
+                    <a href="#preface" class="toc-drawer-item flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 text-amber-200 transition-all text-sm font-display">
+                        <span>Preface & Purpose</span>
+                        <i data-lucide="chevron-right" class="w-4 h-4 opacity-50"></i>
+                    </a>
+                    <div class="h-[1px] bg-white/10 my-2"></div>
+                    <!-- Chapters 1 to 10 rendered here -->
+                </nav>
+            </div>
+
+            <!-- Drawer Footer -->
+            <div class="pt-6 border-t border-white/10 mt-6 text-center text-xs text-amber-400/60 font-sans">
+                A Phoenix Journey — Ben Wesley Mwanza
+            </div>
+        </aside>
+    </div>
+
+    <!-- MAIN READER CONTENT CONTAINER -->
+    <main class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-28">
+
+        <!-- HERO COVER SECTION -->
+        <section id="hero" class="min-h-[80vh] flex flex-col justify-center items-center text-center py-12 mb-16 relative">
+            
+            <!-- Edition Pill -->
+            <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full glass-panel border border-gold-500/30 text-gold-400 text-xs font-display tracking-widest uppercase mb-8 shadow-lg">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-ember-400 animate-pulse"></i>
+                <span>First Edition — Revised</span>
+            </div>
+
+            <!-- Title -->
+            <h1 class="font-display font-black text-4xl sm:text-6xl md:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-ember-400 via-gold-400 to-amber-200 tracking-tight mb-4 drop-shadow-[0_5px_15px_rgba(255,87,34,0.3)]">
+                A Phoenix Journey
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="font-body italic text-xl sm:text-2xl text-gold-400/90 max-w-xl mb-8">
+                One's Conversation With Life
+            </p>
+
+            <!-- Decorative Gold Line -->
+            <div class="flex items-center space-x-4 my-4 w-48">
+                <div class="h-[1px] bg-gradient-to-r from-transparent via-gold-500/50 to-transparent flex-1"></div>
+                <i data-lucide="flame" class="w-5 h-5 text-ember-500"></i>
+                <div class="h-[1px] bg-gradient-to-r from-transparent via-gold-500/50 to-transparent flex-1"></div>
+            </div>
+
+            <!-- Author & Publisher -->
+            <div class="space-y-1 mb-10">
+                <div class="font-display uppercase tracking-[0.25em] text-sm text-amber-200/90 font-semibold">
+                    By Ben Wesley Mwanza
+                </div>
+                <div class="font-display uppercase tracking-[0.2em] text-xs text-ember-400 font-medium">
+                    Published by Phoenix View Media
+                </div>
+            </div>
+
+            <!-- Metadata Stats Pill Grid -->
+            <div class="grid grid-cols-3 gap-3 max-w-md w-full mb-10 text-center font-sans text-xs">
+                <div class="glass-panel p-3 rounded-2xl">
+                    <div class="text-gold-400 font-display font-bold text-base">10</div>
+                    <div class="text-amber-300/60 text-[10px] uppercase">Chapters</div>
+                </div>
+                <div class="glass-panel p-3 rounded-2xl">
+                    <div class="text-gold-400 font-display font-bold text-base">~15 Min</div>
+                    <div class="text-amber-300/60 text-[10px] uppercase">Read Time</div>
+                </div>
+                <div class="glass-panel p-3 rounded-2xl">
+                    <div class="text-gold-400 font-display font-bold text-base">Wisdom</div>
+                    <div class="text-amber-300/60 text-[10px] uppercase">Dialogue</div>
+                </div>
+            </div>
+
+            <!-- CTA Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4">
+                <a href="#preface" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-ember-600 to-ember-500 hover:from-ember-500 hover:to-gold-600 text-white font-display font-bold text-sm tracking-wider uppercase shadow-[0_4px_25px_rgba(255,87,34,0.5)] transition-all hover:scale-105 flex items-center justify-center space-x-2">
+                    <span>Begin Reading</span>
+                    <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                </a>
+                <a href="#toc-overview" class="w-full sm:w-auto px-6 py-4 rounded-full glass-panel hover:bg-white/10 text-amber-200 font-display font-semibold text-sm tracking-wider uppercase transition-all flex items-center justify-center space-x-2">
+                    <i data-lucide="list" class="w-4 h-4 text-gold-400"></i>
+                    <span>Table of Contents</span>
+                </a>
+            </div>
+
+        </section>
+
+
+        <!-- PREFACE SECTION -->
+        <section id="preface" class="chapter-card glass-panel rounded-3xl p-6 sm:p-10 mb-12 shadow-2xl relative border-l-4 border-l-ember-500">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="p-2 rounded-xl bg-ember-500/10 text-ember-400">
+                    <i data-lucide="feather" class="w-6 h-6"></i>
+                </div>
+                <h2 class="font-display font-bold text-2xl sm:text-3xl text-gold-400 tracking-wide">
+                    PREFACE
+                </h2>
+            </div>
+            
+            <div class="reader-text-container space-y-4 text-amber-100/90 leading-relaxed">
+                <p>I came to see that humans tend to set themselves back and get stuck on blaming things that are in the past.</p>
+                <p class="italic text-amber-200/80 border-l-2 border-gold-500/40 pl-4 py-1">
+                    A Phoenix Journey: One's Conversation With Life is a deeply reflective, philosophical dialogue that wrestles with fundamental human experiences: fairness, discipline, divine purpose, pain, and spiritual truth. It reads like a modern wisdom narrative or a series of allegorical meditations.
+                </p>
+            </div>
+        </section>
+
+
+        <!-- THE IMPORTANCE OF THIS BOOK SECTION -->
+        <section id="importance" class="chapter-card glass-panel rounded-3xl p-6 sm:p-10 mb-16 shadow-2xl relative border-l-4 border-l-gold-500">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="p-2 rounded-xl bg-gold-500/10 text-gold-400">
+                    <i data-lucide="compass" class="w-6 h-6"></i>
+                </div>
+                <h2 class="font-display font-bold text-2xl sm:text-3xl text-gold-400 tracking-wide">
+                    THE IMPORTANCE OF THIS BOOK
+                </h2>
+            </div>
+            
+            <div class="reader-text-container space-y-5 text-amber-100/90 leading-relaxed">
+                <p>This book serves as a mirror for the searching heart. In a world consumed by noise, distraction, and immediate gratification, <em>A Phoenix Journey</em> provides an anchor of contemplative wisdom. It encourages the reader to stop projecting blame onto external circumstances and instead turn inward to uncover the transformative power of endurance, self-awareness, and faith.</p>
+                <p>By engaging directly with the voice of Life, this text illuminates how our deepest struggles—uncomfortable transitions, heartbreaks, emotional wounds, and difficult choices—are not accidental roadblocks, but deliberate teachers meant to shape our character and draw us closer to ultimate truth.</p>
+            </div>
+        </section>
+
+
+        <!-- INTERACTIVE TABLE OF CONTENTS GRID -->
+        <section id="toc-overview" class="chapter-card glass-panel rounded-3xl p-6 sm:p-10 mb-16 shadow-2xl">
+            <div class="flex items-center justify-between pb-6 mb-8 border-b border-white/10">
+                <div class="flex items-center space-x-3">
+                    <i data-lucide="book-marked" class="w-6 h-6 text-ember-400"></i>
+                    <h2 class="font-display font-bold text-2xl text-gold-400">TABLE OF CONTENTS & KEY INSIGHTS</h2>
+                </div>
+                <span class="text-xs font-sans text-amber-300/60 uppercase tracking-widest hidden sm:inline">Index & Direct Links</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="toc-grid">
+                <!-- Javascript will dynamically build TOC cards for all 10 chapters -->
+            </div>
+        </section>
+
+
+        <!-- CHAPTERS CONTAINER (Preserving ALL Verbatim Text) -->
+        <div id="chapters-wrapper" class="space-y-16">
+
+            <!-- CHAPTER 1 -->
+            <article id="ch1" class="chapter-card glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl relative">
+                <!-- Chapter Header -->
+                <div class="flex items-start justify-between pb-6 mb-6 border-b border-white/10">
+                    <div>
+                        <span class="text-xs font-display uppercase tracking-widest text-ember-400 font-semibold block mb-1">Chapter 01</span>
+                        <h2 class="font-display font-bold text-2xl sm:text-3xl text-gold-400">
+                            ONE’S CONVERSATION WITH LIFE
+                        </h2>
+                    </div>
+                    <button onclick="copyQuote('ch1', 'Consistency doesn’t mean to be pretty... keep doing for you and the silent ones.')" class="p-2 rounded-xl bg-white/5 hover:bg-white/15 text-gold-400 transition-all flex items-center space-x-1.5 text-xs font-sans" title="Copy Chapter Quote">
+                        <i data-lucide="quote" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline">Copy Quote</span>
+                    </button>
+                </div>
+
+                <!-- Featured Quote Badge -->
+                <blockquote class="dialogue-box rounded-2xl p-4 mb-8 text-sm italic text-amber-200">
+                    “Consistency doesn’t mean to be pretty... keep doing for you and the silent ones.”
+                </blockquote>
+
+                <!-- Chapter Verbatim Text -->
+                <div class="chapter-body reader-text-container space-y-6 text-amber-100/90">
+                    <p>One spoke to life about how life can be so unfair, but at the same time so fair to other people. Life told One that there are those who pay attention to life’s gifts and those who certainly don’t. Because if you pay close attention to everything in this life, everything is a teacher. So it’s either you are a good student or a bad one. And it’s not like life is unfair to others; it’s just that in this world, some people deny what they are given by life. They want what others have, while forgetting that they have their own life and the things given to them by the One who gave them life. It’s more like a pattern—you just have to see it.</p>
+
+                    <p>Some in this world obtain things that are great because of consistency. I will give an example of the one who gives up and the one who doesn’t. Let’s say there is one who posts content on the internet in order to be noticed by the world, and he reaches his goal by getting followers and a thousand-plus likes and shares. But another is posting without any likes, comments, followers, or shares and gives up. That one will say life is not fair at all, but always remember that even if life seems unfair, there’s always someone out there who wants what you do. So listen: consistency doesn’t mean to be pretty. It means waking up with one like, zero comments, zero mentions, but still choosing to post the content that you want to publish. Because if you think that people are not seeing what you are doing, well... you are certainly wrong. They are, and some are liking it in silence. So keep doing it for you and the silent ones. Life is fair because the Giver gives in fairness.</p>
+
+                    <p>Let me tell you some things about life and humans themselves.</p>
+                </div>
+
+                <!-- Footer Nav for Chapter -->
+                <div class="flex items-center justify-between pt-8 mt-10 border-t border-white/10 text-xs font-display">
+                    <div></div>
+                    <a href="#ch2" class="flex items-center space-x-2 text-ember-400 hover:text-gold-400 transition-colors">
+                        <span>Chapter 2 →</span>
+                    </a>
+                </div>
+            </article>
+
+
+            <!-- CHAPTER 2 -->
+            <article id="ch2" class="chapter-card glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl relative">
+                <div class="flex items-start justify-between pb-6 mb-6 border-b border-white/10">
+                    <div>
+                        <span class="text-xs font-display uppercase tracking-widest text-ember-400 font-semibold block mb-1">Chapter 02</span>
+                        <h2 class="font-display font-bold text-2xl sm:text-3xl text-gold-400">
+                            HUMAN’S COMMON MISTAKES
+                        </h2>
+                    </div>
+                    <button onclick="copyQuote('ch2', 'Sense isn’t just found in the wisest places but in all places.')" class="p-2 rounded-xl bg-white/5 hover:bg-white/15 text-gold-400 transition-all flex items-center space-x-1.5 text-xs font-sans">
+                        <i data-lucide="quote" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline">Copy Quote</span>
+                    </button>
+                </div>
+
+                <blockquote class="dialogue-box rounded-2xl p-4 mb-8 text-sm italic text-amber-200">
+                    “Sense isn’t just found in the wisest places but in all places.”
+                </blockquote>
+
+                <div class="chapter-body reader-text-container space-y-6 text-amber-100/90">
+                    <p>Humans spend most of their time destroying themselves and spend what little time remains trying to fix themselves. That’s mankind’s way of living.</p>
+
+                    <p>They trade what they want the most for the future for what they want right now, and spend their time trying to fix the past. Instead of learning from the mistakes they have made and taking lessons from other people to avoid them, they end up doing the exact same thing. So, some learn by observing, while some learn by walking the same painful path.</p>
+
+                    <p>Just as a fool cannot receive advice from a wise person, a wise person can get advice from a fool—because sense isn’t just found in the wisest places, but in all places.</p>
+                </div>
+
+                <div class="flex items-center justify-between pt-8 mt-10 border-t border-white/10 text-xs font-display">
+                    <a href="#ch1" class="flex items-center space-x-2 text-amber-300/70 hover:text-amber-100 transition-colors">
+                        <span>← Chapter 1</span>
+                    </a>
+                    <a href="#ch3" class="flex items-center space-x-2 text-ember-400 hover:text-gold-400 transition-colors">
+                        <span>Chapter 3 →</span>
+                    </a>
+                </div>
+            </article>
+
+
+            <!-- CHAPTER 3 -->
+            <article id="ch3" class="chapter-card glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl relative">
+                <div class="flex items-start justify-between pb-6 mb-6 border-b border-white/10">
+                    <div>
+                        <span class="text-xs font-display uppercase tracking-widest text-ember-400 font-semibold block mb-1">Chapter 03</span>
+                        <h2 class="font-display font-bold text-2xl sm:text-3xl text-gold-400">
+                            THE TWO ROADS
+                        </h2>
+                    </div>
+                    <button onclick="copyQuote('ch3', 'Strength comes from endurance of pain.')" class="p-2 rounded-xl bg-white/5 hover:bg-white/15 text-gold-400 transition-all flex items-center space-x-1.5 text-xs font-sans">
+                        <i data-lucide="quote" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline">Copy Quote</span>
+                    </button>
+                </div>
+
+                <blockquote class="dialogue-box rounded-2xl p-4 mb-8 text-sm italic text-amber-200">
+                    “Strength comes from endurance of pain.”
+                </blockquote>
+
+                <div class="chapter-body reader-text-container space-y-6 text-amber-100/90">
+                    <p>In this world, there are two roads that life gives. No matter which one you choose, there is death at the end; but keep this in mind: “The road to Hell looks beautiful and sweet like honey, while the road to Heaven looks painful and ugly.” Choose wisely, my friend. And when that road looks like it is taking long to get you to your destination, don’t jump out of it to go onto the next one, and don’t stop when you are halfway to your final point—because the distance back is the same when you are halfway there. I repeat, but in different words: we can say that the road to Hell feels like Heaven, while the road to Heaven feels like Hell. Pay close attention to this, for this is one gift that comes with life. But most of all, the greatest and biggest gift of all is the Word of Life.</p>
+
+                    <p>These roads carry things that require close attention, for if one gets on the wrong one, then one is doomed. Like I said, both roads lead to death. But one is a painful death—death without peace—while the other road has death, but it is peaceful because there is something glorious after it. Chase what gives life: the road that gives life, not the one that takes it away with the illusions of this world. For what this world calls fun is what kills the very person enjoying it. The right road will always look like the wrong road, but when choosing these very roads, seek the Word that speaks the truth, for it will show you the right one to take, and you will then understand why the right one looks painful. “Strength comes from the endurance of pain.”</p>
+                </div>
+
+                <div class="flex items-center justify-between pt-8 mt-10 border-t border-white/10 text-xs font-display">
+                    <a href="#ch2" class="flex items-center space-x-2 text-amber-300/70 hover:text-amber-100 transition-colors">
+                        <span>← Chapter 2</span>
+                    </a>
+                    <a href="#ch4" class="flex items-center space-x-2 text-ember-400 hover:text-gold-400 transition-colors">
+                        <span>Chapter 4 →</span>
+                    </a>
+                </div>
+            </article>
+
+
+            <!-- CHAPTER 4 -->
+            <article id="ch4" class="chapter-card glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl relative">
+                <div class="flex items-start justify-between pb-6 mb-6 border-b border-white/10">
+                    <div>
+                        <span class="text-xs font-display uppercase tracking-widest text-ember-400 font-semibold block mb-1">Chapter 04</span>
+                        <h2 class="font-display font-bold text-2xl sm:text-3xl text-gold-400">
+                            CHANGE AND UNCOMFORTABILITY
+                        </h2>
+                    </div>
+                    <button onclick="copyQuote('ch4', 'Life changes where there is uncomfortability.')" class="p-2 rounded-xl bg-white/5 hover:bg-white/15 text-gold-400 transition-all flex items-center space-x-1.5 text-xs font-sans">
+                        <i data-lucide="quote" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline">Copy Quote</span>
+                    </button>
+                </div>
+
+                <blockquote class="dialogue-box rounded-2xl p-4 mb-8 text-sm italic text-amber-200">
+                    “Life changes where there is uncomfortability.”
+                </blockquote>
+
+                <div class="chapter-body reader-text-container space-y-6 text-amber-100/90">
+                    <p>Change seems hard for many people, and mostly, people always prefer comfortability. But where there is comfortability, there can be no change. You cannot change something that is making you feel good; so for one to change, he must first become uncomfortable with where he is. That’s how life evolves. Life changes where there is uncomfortability.</p>
+
+                    <p>So don’t feel bad if you feel like where you are is very uncomfortable for you. That is not the end of everything; that is life telling you that it needs change. It needs a higher purpose. That’s the whole point of life—it lives in us and we live in it... we are life itself.</p>
+                </div>
+
+                <div class="flex items-center justify-between pt-8 mt-10 border-t border-white/10 text-xs font-display">
+                    <a href="#ch3" class="flex items-center space-x-2 text-amber-300/70 hover:text-amber-100 transition-colors">
+                        <span>← Chapter 3</span>
+                    </a>
+                    <a href="#ch5" class="flex items-center space-x-2 text-ember-400 hover:text-gold-400 transition-colors">
+                        <span>Chapter 5 →</span>
+                    </a>
+                </div>
+            </article>
+
+
+            <!-- CHAPTER 5 -->
+            <article id="ch5" class="chapter-card glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl relative">
+                <div class="flex items-start justify-between pb-6 mb-6 border-b border-white/10">
+                    <div>
+                        <span class="text-xs font-display uppercase tracking-widest text-ember-400 font-semibold block mb-1">Chapter 05</span>
+                        <h2 class="font-display font-bold text-2xl sm:text-3xl text-gold-400">
+                            THE CHOICES WE MAKE
+                        </h2>
+                    </div>
+                    <button onclick="copyQuote('ch5', 'No matter what you choose, you didn’t choose it but it chose you.')" class="p-2 rounded-xl bg-white/5 hover:bg-white/15 text-gold-400 transition-all flex items-center space-x-1.5 text-xs font-sans">
+                        <i data-lucide="quote" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline">Copy Quote</span>
+                    </button>
+                </div>
+
+                <blockquote class="dialogue-box rounded-2xl p-4 mb-8 text-sm italic text-amber-200">
+                    “No matter what you choose, you didn’t choose it but it chose you.”
+                </blockquote>
+
+                <div class="chapter-body reader-text-container space-y-6 text-amber-100/90">
+                    <p>We have choices in life; we encounter a thousand choices to be where we are right now. One’s life is built on choices. One might ask, “Why did I make this choice?” Regrets come in when one makes a choice that seems to be wrong, but in life, the choices you made were the choices that were meant for you to see things that were meant to teach you and shape you. They prepare you for things you thought you could handle, but life knew you needed more teaching. Every choice you made led you to exactly where you were meant to be; there is no such thing as a wrong choice in life. A display of choices is given to you: a path of choices is like a road full of junctions. You might be standing at a junction that is fully clouded, or you might be alone at that junction, and the roads ahead may not be clear. But as you go, you find that whether you took the long road or the short road full of brief achievements, no matter what you choose, you didn’t just choose it—it chose you. It’s what humans call fate. When you are not ready, you choose choices that are not ready for you, and in the process, you think that maybe you chose the hard road. But no, you end up being taught by those very choices you took. I strongly advise you to pay attention to the lessons those choices taught you, so that you may choose wisely in the future. Seek out the Word, for it will teach you how to make the right choices.</p>
+
+                    <!-- Dialogue Exchange -->
+                    <div class="dialogue-box rounded-2xl p-5 my-6 space-y-4">
+                        <div class="font-display font-bold text-sm text-ember-400 tracking-wider">ONE ASKED:</div>
+                        <p class="text-amber-100 italic pl-2">What if I don’t pay attention?</p>
+
+                        <div class="font-display font-bold text-sm text-gold-400 tracking-wider pt-2">LIFE ANSWERED:</div>
+                        <p class="text-amber-100 pl-2">Whatever you choose will bring about the end of something and the start of something you once began to create. The uncounted pieces you once tried to put together will then turn into a long regret that you once started, but then stopped.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-8 mt-10 border-t border-white/10 text-xs font-display">
+                    <a href="#ch4" class="flex items-center space-x-2 text-amber-300/70 hover:text-amber-100 transition-colors">
+                        <span>← Chapter 4</span>
+                    </a>
+                    <a href="#ch6" class="flex items-center space-x-2 text-ember-400 hover:text-gold-400 transition-colors">
+                        <span>Chapter 6 →</span>
+                    </a>
+                </div>
+            </article>
+
+
+            <!-- CHAPTER 6 -->
+            <article id="ch6" class="chapter-card glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl relative">
+                <div class="flex items-start justify-between pb-6 mb-6 border-b border-white/10">
+                    <div>
+                        <span class="text-xs font-display uppercase tracking-widest text-ember-400 font-semibold block mb-1">Chapter 06</span>
+                        <h2 class="font-display font-bold text-2xl sm:text-3xl text-gold-400">
+                            THE ONE WHO WANTS SUFFERING AND THE ONE WHO DOESN’T
+                        </h2>
+                    </div>
+                    <button onclick="copyQuote('ch6', 'True suffering doesn’t teach hate towards others, but instead, it teaches love, peace, faith, obedience, mercy and honesty.')" class="p-2 rounded-xl bg-white/5 hover:bg-white/15 text-gold-400 transition-all flex items-center space-x-1.5 text-xs font-sans">
+                        <i data-lucide="quote" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline">Copy Quote</span>
+                    </button>
+                </div>
+
+                <blockquote class="dialogue-box rounded-2xl p-4 mb-8 text-sm italic text-amber-200">
+                    “True suffering doesn’t teach hate towards others, but instead, it teaches love, peace, faith, obedience, mercy and honesty.”
+                </blockquote>
+
+                <div class="chapter-body reader-text-container space-y-6 text-amber-100/90">
+                    <p>I have seen people suffer enough to not want to see it happen to another, and I have seen those who want to project suffering onto others by throwing it at them.</p>
+
+                    <p>The one who wants others to suffer—the one who throws it at others, the one who wishes tears upon others—has no pure thoughts and no true happiness in him. Some might say he has been through a lot to the extent that he knows only that, but the reality is that he is being blinded by it; he hasn’t learned the lesson within it. Because the one who suffers for another, or even just for himself, knows that he carries a lot on his shoulders. Like JESUS CHRIST, He suffered for the world so that happiness and freedom could be felt by he who follows Him.</p>
+
+                    <p>The one who doesn’t want suffering to fall onto others knows and has learned many lessons through it. Having seen so many tears, he knows that he carries not just his own life, but many more. So he will do good to others so that they don’t get trapped by the bad things that come with this world. He will try by all means to direct them to the very Word that gives happiness and life. The one who truly suffers is not blind, but sees every suffering clearly. And I say to you, One: true suffering doesn’t teach hate towards others, but instead, it teaches love, peace, faith, obedience, mercy, and honesty. Because the opposite of these things brings suffering to the one who practices them.</p>
+                </div>
+
+                <div class="flex items-center justify-between pt-8 mt-10 border-t border-white/10 text-xs font-display">
+                    <a href="#ch5" class="flex items-center space-x-2 text-amber-300/70 hover:text-amber-100 transition-colors">
+                        <span>← Chapter 5</span>
+                    </a>
+                    <a href="#ch7" class="flex items-center space-x-2 text-ember-400 hover:text-gold-400 transition-colors">
+                        <span>Chapter 7 →</span>
+                    </a>
+                </div>
+            </article>
+
+
+            <!-- CHAPTER 7 -->
+            <article id="ch7" class="chapter-card glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl relative">
+                <div class="flex items-start justify-between pb-6 mb-6 border-b border-white/10">
+                    <div>
+                        <span class="text-xs font-display uppercase tracking-widest text-ember-400 font-semibold block mb-1">Chapter 07</span>
+                        <h2 class="font-display font-bold text-2xl sm:text-3xl text-gold-400">
+                            THE MISTAKE OF BEING LOVED
+                        </h2>
+                    </div>
+                    <button onclick="copyQuote('ch7', 'You will be needed when you have what is needed—don’t see that as love.')" class="p-2 rounded-xl bg-white/5 hover:bg-white/15 text-gold-400 transition-all flex items-center space-x-1.5 text-xs font-sans">
+                        <i data-lucide="quote" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline">Copy Quote</span>
+                    </button>
+                </div>
+
+                <blockquote class="dialogue-box rounded-2xl p-4 mb-8 text-sm italic text-amber-200">
+                    “You will be needed when you have what is needed—don’t see that as love.”
+                </blockquote>
+
+                <div class="chapter-body reader-text-container space-y-6 text-amber-100/90">
+                    <p>Sometimes human beings mistake being needed for being loved at that same moment. Then they feel left out in the darkness alone, wondering why that person left them when they needed them back then. They feel emotionally drained. But that wasn’t love—it was just a need. They needed you at that specific moment, but they didn’t love you at that moment. They simply liked what they needed from you, and when it was over, they threw you away like a sheet of paper that has been inked badly and cannot be used again. There is a saying that goes, “You will be needed when you have what is needed,” and I hope that you won’t mistake that for love.</p>
+
+                    <!-- Dialogue Exchange -->
+                    <div class="dialogue-box rounded-2xl p-5 my-6 space-y-3">
+                        <div class="font-display font-bold text-sm text-ember-400 tracking-wider">ONE ASKED:</div>
+                        <p class="text-amber-100 italic pl-2">What is love then, if being needed is not love?</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-8 mt-10 border-t border-white/10 text-xs font-display">
+                    <a href="#ch6" class="flex items-center space-x-2 text-amber-300/70 hover:text-amber-100 transition-colors">
+                        <span>← Chapter 6</span>
+                    </a>
+                    <a href="#ch8" class="flex items-center space-x-2 text-ember-400 hover:text-gold-400 transition-colors">
+                        <span>Chapter 8 →</span>
+                    </a>
+                </div>
+            </article>
+
+
+            <!-- CHAPTER 8 -->
+            <article id="ch8" class="chapter-card glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl relative">
+                <div class="flex items-start justify-between pb-6 mb-6 border-b border-white/10">
+                    <div>
+                        <span class="text-xs font-display uppercase tracking-widest text-ember-400 font-semibold block mb-1">Chapter 08</span>
+                        <h2 class="font-display font-bold text-2xl sm:text-3xl text-gold-400">
+                            AN UNDERSTANDING OF AT LEAST WHAT LOVE IS
+                        </h2>
+                    </div>
+                    <button onclick="copyQuote('ch8', 'People will treat you according to their moods, don’t let that affect you in your search for what love is.')" class="p-2 rounded-xl bg-white/5 hover:bg-white/15 text-gold-400 transition-all flex items-center space-x-1.5 text-xs font-sans">
+                        <i data-lucide="quote" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline">Copy Quote</span>
+                    </button>
+                </div>
+
+                <blockquote class="dialogue-box rounded-2xl p-4 mb-8 text-sm italic text-amber-200">
+                    “People will treat you according to their moods, don’t let that affect you in your search for what love is.”
+                </blockquote>
+
+                <div class="chapter-body reader-text-container space-y-6 text-amber-100/90">
+                    <p>Love is described in many ways. One could say it is a strong emotion towards someone you don’t want to see suffer. Another could say it is found in the gifts one gives to another. But love is something that comes with pure intent. Love doesn’t hurt, hate, or make someone cry out of malice. Love carries no regrets; love carries protection—not of wounding, but of healing. Love carries no destruction. Some mistake love as something that can bring about hate in order to protect, or bring about destruction in order to guard. Well, that is the love this world has shown you, One. But if you really want to understand love, go and read the Word that contains true love—the Word that teaches how to love.</p>
+
+                    <!-- Life's Advice Dialogue Box -->
+                    <div class="dialogue-box rounded-2xl p-5 my-6 space-y-3">
+                        <div class="font-display font-bold text-sm text-gold-400 tracking-wider">LIFE’S ADVICE TO ONE:</div>
+                        <p class="text-amber-100 italic pl-2">
+                            “People will treat you according to their moods. Don’t let that affect you in your search for what love is. Don’t hate or hurt the one who treats you badly, but instead understand them, to find peace and to prove that love carries no harm towards another.”
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-8 mt-10 border-t border-white/10 text-xs font-display">
+                    <a href="#ch7" class="flex items-center space-x-2 text-amber-300/70 hover:text-amber-100 transition-colors">
+                        <span>← Chapter 7</span>
+                    </a>
+                    <a href="#ch9" class="flex items-center space-x-2 text-ember-400 hover:text-gold-400 transition-colors">
+                        <span>Chapter 9 →</span>
+                    </a>
+                </div>
+            </article>
+
+
+            <!-- CHAPTER 9 -->
+            <article id="ch9" class="chapter-card glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl relative">
+                <div class="flex items-start justify-between pb-6 mb-6 border-b border-white/10">
+                    <div>
+                        <span class="text-xs font-display uppercase tracking-widest text-ember-400 font-semibold block mb-1">Chapter 09</span>
+                        <h2 class="font-display font-bold text-2xl sm:text-3xl text-gold-400">
+                            FORGIVENESS AND FORGETTING
+                        </h2>
+                    </div>
+                    <button onclick="copyQuote('ch9', 'Forgiveness is not you forgetting, it is choosing peace over poison.')" class="p-2 rounded-xl bg-white/5 hover:bg-white/15 text-gold-400 transition-all flex items-center space-x-1.5 text-xs font-sans">
+                        <i data-lucide="quote" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline">Copy Quote</span>
+                    </button>
+                </div>
+
+                <blockquote class="dialogue-box rounded-2xl p-4 mb-8 text-sm italic text-amber-200">
+                    “Forgiveness is not you forgetting, it is choosing peace over poison.”
+                </blockquote>
+
+                <div class="chapter-body reader-text-container space-y-6 text-amber-100/90">
+                    
+                    <!-- Dialogue Exchange 1 -->
+                    <div class="dialogue-box rounded-2xl p-5 my-6 space-y-3">
+                        <div class="font-display font-bold text-sm text-ember-400 tracking-wider">ONE SAID:</div>
+                        <p class="text-amber-100 pl-2">But sometimes it’s hard to forgive a person when you have been hurt. Just seeing them brings so much pain and resentment because of what they did to you. Some leave scars that can’t even be erased by just trying to forget about that memory. The memory itself carries emotions of pain. How can one forgive such a thing?</p>
+                    </div>
+
+                    <!-- Life Answered -->
+                    <div class="dialogue-box rounded-2xl p-5 my-6 space-y-3">
+                        <div class="font-display font-bold text-sm text-gold-400 tracking-wider">LIFE ANSWERED:</div>
+                        <p class="text-amber-100 pl-2">Truly, it is hard to forgive someone who has hurt you. Scars don’t just appear on the flesh, but inside the heart as well. The heart carries far more scars compared to the flesh itself, because most of the pain we carry is emotional pain caused by another’s actions or by words spoken without understanding their weight. The Word strongly encourages Forgiveness and Forgetting. This is where most people find it hard, because forgetting is difficult. As long as you remember that very day someone caused you pain, the feeling comes back, making you want to do the same to them. But someone once explained Forgiveness and Forgetting in a much simpler way so that one can understand what “Forgive and Forget” really means. He said: “Forgiveness is not you forgetting; it is choosing peace over poison. You release the bitterness, not the memory.” It is hard to erase a memory from your mind because as long as that person was part of the life you lived, you will think about their actions—good or bad. Memories replay so that one can recognize another based on their actions, but if you release the poison from those thoughts, you will truly understand that forgiveness is not impossible. People assume those words mean forgetting the person who caused pain entirely, but that is not possible. Forgetting implies something never existed, but something that crossed your path in life is never erased easily. So release the bitterness instead of clinging to the pain it caused. When you truly forgive someone, no matter what happens, you will never inflict the pain they made you feel back onto them.</p>
+                    </div>
+
+                    <!-- Dialogue Exchange 2 -->
+                    <div class="dialogue-box rounded-2xl p-5 my-6 space-y-3">
+                        <div class="font-display font-bold text-sm text-ember-400 tracking-wider">ONE ASKED:</div>
+                        <p class="text-amber-100 italic pl-2">What is the Word that you keep directing me to? Is it a book with that title?</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-8 mt-10 border-t border-white/10 text-xs font-display">
+                    <a href="#ch8" class="flex items-center space-x-2 text-amber-300/70 hover:text-amber-100 transition-colors">
+                        <span>← Chapter 8</span>
+                    </a>
+                    <a href="#ch10" class="flex items-center space-x-2 text-ember-400 hover:text-gold-400 transition-colors">
+                        <span>Chapter 10 →</span>
+                    </a>
+                </div>
+            </article>
+
+
+            <!-- CHAPTER 10 -->
+            <article id="ch10" class="chapter-card glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl relative border-l-4 border-l-gold-500">
+                <div class="flex items-start justify-between pb-6 mb-6 border-b border-white/10">
+                    <div>
+                        <span class="text-xs font-display uppercase tracking-widest text-ember-400 font-semibold block mb-1">Chapter 10 — Finale</span>
+                        <h2 class="font-display font-bold text-2xl sm:text-3xl text-gold-400">
+                            HEAR THIS CAREFULLY
+                        </h2>
+                    </div>
+                    <button onclick="copyQuote('ch10', 'Seek out understanding and knowledge... do not get covered in what the flesh desires.')" class="p-2 rounded-xl bg-white/5 hover:bg-white/15 text-gold-400 transition-all flex items-center space-x-1.5 text-xs font-sans">
+                        <i data-lucide="quote" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline">Copy Quote</span>
+                    </button>
+                </div>
+
+                <blockquote class="dialogue-box rounded-2xl p-4 mb-8 text-sm italic text-amber-200">
+                    “Seek out understanding and knowledge... do not get covered in what the flesh desires.”
+                </blockquote>
+
+                <div class="chapter-body reader-text-container space-y-6 text-amber-100/90">
+                    <p>So remove the pain that you feel towards that person, but leave the memory or ignore the negative feelings that come with it, and choose acts of peace.</p>
+
+                    <p>There will be people who will oppose what I have told you in this conversation, but don’t go losing your way trying to defend my words or the truths you have seen here. I am not saying I am right in everything I have spoken, but I am pointing One to the truth which is written in the Word. The entire truth about how to overcome the pain that comes with this world is found by reading, knowing, and understanding the very Word that the Creator of life tells us to read. He only has good planned for us.</p>
+
+                    <p>The Word I speak of is found in a book—a book that almost every house in this world has. But some choose to keep it merely for the sake of respect, though that is barely respect at all. If your Master gives you a book to read—a book that tells you how He wants you to handle His creation and the things He made for you—you ought to read it in order to follow His command. Most people know what is inside; they know the truth, but they choose to ignore it. This book has answers to all the questions humans have. Seek out understanding. This book is found in almost every house, and I am sure you are thinking of it right now. This book I am speaking of is the Bible, and the Word I am speaking of is the Word of God found within it. Seek out understanding and knowledge when reading it, so that you may truly comprehend what it says—because one may read but not know, and one may know but not understand. So seek out understanding and knowledge.</p>
+
+                    <p class="font-semibold text-gold-400/90 pt-2 border-t border-white/10">Don’t get covered in what the flesh desires, for those are worldly things.</p>
+                </div>
+
+                <div class="flex items-center justify-between pt-8 mt-10 border-t border-white/10 text-xs font-display">
+                    <a href="#ch9" class="flex items-center space-x-2 text-amber-300/70 hover:text-amber-100 transition-colors">
+                        <span>← Chapter 9</span>
+                    </a>
+                    <a href="#hero" class="flex items-center space-x-2 text-gold-400 hover:text-ember-400 transition-colors">
+                        <span>Back to Top ↑</span>
+                    </a>
+                </div>
+            </article>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 text-center py-16 px-4 border-t border-white/10 glass-panel">
+        <div class="max-w-xl mx-auto space-y-6">
+            <i data-lucide="flame" class="w-8 h-8 text-ember-500 mx-auto animate-pulse"></i>
+            
+            <h3 class="font-display font-bold text-2xl text-gold-400 tracking-wider">
+                Peace be with you.
+            </h3>
+
+            <div class="h-[1px] w-24 bg-gradient-to-r from-transparent via-gold-500/50 to-transparent mx-auto"></div>
+
+            <div class="font-sans text-xs text-amber-300/60 space-y-1 tracking-wide">
+                <div>&copy; 2026 Ben Wesley Mwanza. All Rights Reserved.</div>
+                <div>Published by <strong class="text-ember-400 font-display">Phoenix View Media</strong></div>
+            </div>
         </div>
     </footer>
 
-    <script>
-        // Reading progress indicator
-        window.onscroll = function() {
-            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            let scrolled = (winScroll / height) * 100;
-            document.getElementById("progress-bar").style.width = scrolled + "%";
-        };
 
-        // Fade in animation on scroll (Intersection Observer)
-        const observerOptions = { threshold: 0.15 };
-        const observer = new IntersectionObserver((entries, observer) => {
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 pointer-events-none hidden">
+        <div class="glass-panel px-4 py-3 rounded-2xl shadow-2xl border border-gold-500/40 flex items-center space-x-3 text-sm text-amber-100 toast-animate">
+            <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+            <span id="toast-msg">Quote copied to clipboard!</span>
+        </div>
+    </div>
+
+
+    <!-- INTERACTIVE SCRIPT -->
+    <script>
+        // Chapter data dictionary for interactive elements
+        const CHAPTER_DATA = [
+            { id: 'ch1', title: "ONE’S CONVERSATION WITH LIFE", quote: "Consistency doesn’t mean to be pretty... keep doing for you and the silent ones." },
+            { id: 'ch2', title: "HUMAN’S COMMON MISTAKES", quote: "Sense isn’t just found in the wisest places but in all places." },
+            { id: 'ch3', title: "THE TWO ROADS", quote: "Strength comes from endurance of pain." },
+            { id: 'ch4', title: "CHANGE AND UNCOMFORTABILITY", quote: "Life changes where there is uncomfortability." },
+            { id: 'ch5', title: "THE CHOICES WE MAKE", quote: "No matter what you choose, you didn’t choose it but it chose you." },
+            { id: 'ch6', title: "THE ONE WHO WANTS SUFFERING AND THE ONE WHO DOESN’T", quote: "True suffering doesn’t teach hate towards others, but instead, it teaches love..." },
+            { id: 'ch7', title: "THE MISTAKE OF BEING LOVED", quote: "You will be needed when you have what is needed—don’t see that as love." },
+            { id: 'ch8', title: "AN UNDERSTANDING OF AT LEAST WHAT LOVE IS", quote: "People will treat you according to their moods, don’t let that affect you..." },
+            { id: 'ch9', title: "FORGIVENESS AND FORGETTING", quote: "Forgiveness is not you forgetting, it is choosing peace over poison." },
+            { id: 'ch10', title: "HEAR THIS CAREFULLY", quote: "Seek out understanding and knowledge... do not get covered in what the flesh desires." }
+        ];
+
+        // Global font scaling state
+        let currentFontScale = 1.0;
+
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Build Table of Contents Grid & Drawer
+        function buildTOC() {
+            const gridContainer = document.getElementById('toc-grid');
+            const drawerContainer = document.getElementById('toc-drawer-list');
+
+            CHAPTER_DATA.forEach((ch, idx) => {
+                // Render Grid Cards
+                const card = document.createElement('a');
+                card.href = `#${ch.id}`;
+                card.className = 'group glass-panel p-5 rounded-2xl hover:bg-white/10 transition-all duration-300 border border-white/5 hover:border-gold-500/40 flex flex-col justify-between';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between text-xs font-display font-semibold text-ember-400 mb-1">
+                            <span>CHAPTER 0${idx + 1}</span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                        </div>
+                        <h4 class="font-display font-bold text-base text-gold-400 group-hover:text-amber-200 transition-colors mb-2">
+                            ${ch.title}
+                        </h4>
+                        <p class="font-body italic text-xs text-amber-200/70 line-clamp-2">
+                            "${ch.quote}"
+                        </p>
+                    </div>
+                `;
+                gridContainer.appendChild(card);
+
+                // Render Drawer Items
+                const drawerItem = document.createElement('a');
+                drawerItem.href = `#${ch.id}`;
+                drawerItem.className = 'toc-drawer-item flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 text-amber-200 transition-all text-xs font-display';
+                drawerItem.setAttribute('data-title', ch.title.toLowerCase());
+                drawerItem.innerHTML = `
+                    <div class="truncate pr-2">
+                        <span class="text-ember-400 font-bold mr-2">0${idx+1}.</span>
+                        <span>${ch.title}</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 opacity-50 flex-shrink-0"></i>
+                `;
+                drawerItem.addEventListener('click', () => toggleTOC(false));
+                drawerContainer.appendChild(drawerItem);
+            });
+
+            lucide.createIcons();
+        }
+
+        // TOC Drawer Toggle Logic
+        const tocDrawer = document.getElementById('toc-drawer');
+        const tocOverlay = document.getElementById('toc-overlay');
+        const btnTOC = document.getElementById('btn-toc');
+        const btnCloseTOC = document.getElementById('btn-close-toc');
+
+        function toggleTOC(open) {
+            if(open) {
+                tocDrawer.classList.remove('pointer-events-none', 'opacity-0');
+                tocDrawer.classList.add('opacity-100');
+                tocDrawer.querySelector('aside').classList.remove('translate-x-full');
+            } else {
+                tocDrawer.classList.add('pointer-events-none', 'opacity-0');
+                tocDrawer.classList.remove('opacity-100');
+                tocDrawer.querySelector('aside').classList.add('translate-x-full');
+            }
+        }
+
+        btnTOC.addEventListener('click', () => toggleTOC(true));
+        btnCloseTOC.addEventListener('click', () => toggleTOC(false));
+        tocOverlay.addEventListener('click', () => toggleTOC(false));
+
+        // TOC Live Filter
+        document.getElementById('toc-search').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            document.querySelectorAll('.toc-drawer-item').forEach(item => {
+                const title = item.getAttribute('data-title') || '';
+                if(title.includes(query)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Reading Progress Indicator & Active Chapter Tracker
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        });
+
+        // Intersection Observer for Chapter Reveal & Header Title Update
+        const chapters = document.querySelectorAll('.chapter-card, #hero');
+        const headerTitle = document.getElementById('header-chapter-title');
+
+        const observerOptions = { threshold: 0.25 };
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if(entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                    
+                    // Update header title based on current active section
+                    const id = entry.target.id;
+                    if(id === 'hero') {
+                        headerTitle.textContent = "Cover Page";
+                    } else if(id === 'preface') {
+                        headerTitle.textContent = "Preface & Purpose";
+                    } else if(id === 'importance') {
+                        headerTitle.textContent = "Importance of This Book";
+                    } else if(id === 'toc-overview') {
+                        headerTitle.textContent = "Table of Contents";
+                    } else {
+                        const matched = CHAPTER_DATA.find(c => c.id === id);
+                        if(matched) {
+                            headerTitle.textContent = matched.title;
+                        }
+                    }
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.chapter').forEach(chapter => {
-            observer.observe(chapter);
+        chapters.forEach(ch => observer.observe(ch));
+
+        // Font Size Adjustments
+        const btnFontInc = document.getElementById('btn-font-inc');
+        const btnFontDec = document.getElementById('btn-font-dec');
+        const fontSizeLabel = document.getElementById('font-size-label');
+
+        function updateFontSize() {
+            document.documentElement.style.setProperty('--font-scale', `${currentFontScale}rem`);
+            fontSizeLabel.textContent = `${Math.round(currentFontScale * 100)}%`;
+        }
+
+        btnFontInc.addEventListener('click', () => {
+            if(currentFontScale < 1.45) {
+                currentFontScale += 0.1;
+                updateFontSize();
+            }
+        });
+
+        btnFontDec.addEventListener('click', () => {
+            if(currentFontScale > 0.85) {
+                currentFontScale -= 0.1;
+                updateFontSize();
+            }
+        });
+
+        // Theme Switcher (Dark Ember vs Warm Parchment)
+        const btnTheme = document.getElementById('btn-theme');
+        let isDark = true;
+
+        btnTheme.addEventListener('click', () => {
+            isDark = !isDark;
+            const backdropOverlay = document.getElementById('backdrop-overlay');
+            if(isDark) {
+                document.documentElement.classList.add('dark');
+                document.body.classList.remove('theme-parchment');
+                backdropOverlay.className = "absolute inset-0 bg-gradient-to-b from-ember-950/80 via-ember-950/90 to-ember-950 transition-colors duration-500";
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.body.classList.add('theme-parchment');
+                backdropOverlay.className = "absolute inset-0 bg-gradient-to-b from-parchment-100/90 via-parchment-100/95 to-parchment-100 transition-colors duration-500";
+            }
+        });
+
+        // Custom Backdrop Image Upload Switcher
+        const btnBackdropTrigger = document.getElementById('btn-backdrop-trigger');
+        const backdropFileInput = document.getElementById('backdrop-file-input');
+        const heroBackdrop = document.getElementById('hero-backdrop');
+
+        btnBackdropTrigger.addEventListener('click', () => {
+            backdropFileInput.click();
+        });
+
+        backdropFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    heroBackdrop.style.backgroundImage = `url('${evt.target.result}')`;
+                    showToast("Custom reader backdrop loaded!");
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Copy Quote Micro-interaction
+        function copyQuote(chId, quoteText) {
+            const matched = CHAPTER_DATA.find(c => c.id === chId);
+            const title = matched ? matched.title : '';
+            const copyContent = `"${quoteText}"\n\n— A Phoenix Journey: ${title} (By Ben Wesley Mwanza)`;
+
+            if(navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(copyContent);
+            } else {
+                const textArea = document.createElement('textarea');
+                textArea.value = copyContent;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
+
+            showToast("Chapter quote copied to clipboard!");
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            toastMsg.textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Initialize TOC on DOM Load
+        window.addEventListener('DOMContentLoaded', () => {
+            buildTOC();
         });
     </script>
 </body>
-</html>
+    </html>
